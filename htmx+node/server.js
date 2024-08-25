@@ -173,6 +173,7 @@ app.post("/contact/email", (req, res) => {
 					class="border rounded-lg py-2 px-3 w-full focus:outline-none focus:border-blue-500"
 					type="email"
 					id="email"
+					value="${email}"
 					required
 				/>
 				<div class='${isValid.class}'>${isValid.message}</div>
@@ -192,6 +193,7 @@ app.post("/contact/email", (req, res) => {
 					class="border rounded-lg py-2 px-3 w-full focus:outline-none focus:border-blue-500"
 					type="email"
 					id="email"
+					value="${email}"
 					required
 				/>
 				<div class='${isInValid.class}'>${isInValid.message}</div>
