@@ -66,6 +66,10 @@ app.get("/get-temperature", async (req, res) => {
 	}, 2000);
 });
 
+app.post("/search", (req, res) => {
+	res.status(200).send();
+});
+
 app.listen(3000, () => {
 	console.log("Sever listening to port 3000");
 });
