@@ -91,7 +91,7 @@ app.post("/search", (req, res) => {
 				(contact) =>
 					`<tr>
 						<td><div class="my-4 p-2">${contact.name}</div></td>
-						<td><div class="my-4 p-2">${contact.name}</div></td>
+						<td><div class="my-4 p-2">${contact.email}</div></td>
 					<tr/>`
 			)
 			.join("")
