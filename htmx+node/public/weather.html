@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="htmx-config" content='{"selfRequestsOnly":"false"}' />
+		<script
+			src="https://unpkg.com/htmx.org@2.0.2/dist/htmx.js"
+			integrity="sha384-yZq+5izaUBKcRgFbxgkRYwpHhHHCpp5nseXp0MEQ1A4MTWVMnqkmcuFez8x5qfxr"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+			document.addEventListener("htmx:configRequest", (evt) => {
+				evt.detail.headers = [];
+			});
+		</script>
+
+		<title>Fahrenheit to Degrees Calculator</title>
+	</head>
+	<body>
+		<div
+			class="h-screen w-screen bg-blue-500 flex flex-col items-center justify-center"
+		>
+			<div class="text-white text-7xl font-bold">Calgary</div>
+			<p
+				class="text-white text-3xl font-bold mt-5"
+				hx-get="/get-temperature"
+				hx-swap="innerHTML"
+				hx-trigger="every 5s"
+				hx-indicator="#loading"
+			>
+				0 degrees
+			</p>
+			<span id="loading" class="htmx-indicator mt-3">
+				<img
+					src="./img/loader.gif"
+					alt="loading..."
+					class="m-auto h-10"
+				/>
+			</span>
+		</div>
+	</body>
+</html>
