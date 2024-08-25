@@ -48,6 +48,24 @@ app.get("/calculate", async (req, res) => {
 		</span>`);
 });
 
+app.get("/get-temperature", async (req, res) => {
+	const randomTemp = Math.random() * 100;
+
+	setTimeout(() => {
+		res.status(200).send(`
+				<p
+					class="text-white text-3xl font-bold mt-5"
+					hx-get="/get-temperature"
+					hx-target="innerHTML"
+					hx-trigger="every 5s"
+					hx-indicator="#loading"
+				>
+					${randomTemp.toFixed(2)} degrees
+				</p>
+			`);
+	}, 2000);
+});
+
 app.listen(3000, () => {
 	console.log("Sever listening to port 3000");
 });
