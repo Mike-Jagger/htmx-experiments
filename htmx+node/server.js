@@ -67,7 +67,35 @@ app.get("/get-temperature", async (req, res) => {
 });
 
 app.post("/search", (req, res) => {
-	res.status(200).send();
+	const search = req.body.search?.toLowerCase();
+	const contacts = [
+		{ email: "johndoe@email.com", name: "John Doe" },
+		{ email: "sherlokholmes@email.com", name: "Sherlok Holmes" },
+		{ email: "maryjane@email.com", name: "Mary Jane" },
+	];
+
+	if (!search) {
+		res.send("<tr></tr>");
+	}
+
+	const searchResults = contacts.filter((contact) => {
+		const name = contact.name.toLowerCase();
+		const email = contact.email.toLowerCase();
+
+		return name.includes(search) || email.includes(search);
+	});
+
+	res.status(200).send(
+		searchResults
+			.map(
+				(contact) =>
+					`<tr>
+						<td><div class="my-4 p-2">${contact.name}</div></td>
+						<td><div class="my-4 p-2">${contact.name}</div></td>
+					<tr/>`
+			)
+			.join("")
+	);
 });
 
 app.listen(3000, () => {
