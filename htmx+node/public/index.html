@@ -16,29 +16,47 @@
 			});
 		</script>
 
-		<title>Fahrenheit to Degrees Calculator</title>
+		<title>Search Feature</title>
 	</head>
-	<body>
+	<body class="h-screen w-screen bg-blue-900 container mx-auto py-8 max-w-lg">
+		<span id="loading" class="htmx-indicator">
+			<img src="./img/loader.gif" alt="loading..." class="m-auto h-10" />
+		</span>
 		<div
-			class="h-screen w-screen bg-blue-500 flex flex-col items-center justify-center"
+			class="bg-gray-900 text-white p-4 border border-gray-600 rounded-lg max-w-lg m-auto"
 		>
-			<div class="text-white text-7xl font-bold">Calgary</div>
-			<p
-				class="text-white text-3xl font-bold mt-5"
-				hx-get="/get-temperature"
-				hx-swap="innerHTML"
-				hx-trigger="every 5s"
+			<h3 class="text-2xl mb-3 text-center">Search Results</h3>
+			<input
+				class="border border-gray-600 bg-gray-800 p-2 rounded-lg w-full mb-5"
+				type="search"
+				name="search"
+				placeholder="Begin Typing to Search Users..."
+				hx-post="/search"
+				hx-trigger="input changed delay:500ms, search"
+				hx-target="#search-results"
 				hx-indicator="#loading"
-			>
-				0 degrees
-			</p>
-			<span id="loading" class="htmx-indicator mt-3">
-				<img
-					src="./img/loader.gif"
-					alt="loading..."
-					class="m-auto h-10"
-				/>
-			</span>
+			/>
+			<table class="min-w-full divide-y divide-gray-200">
+				<thead class="bg-gray-800 text-white">
+					<tr>
+						<th
+							scope="col"
+							class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider"
+						>
+							Name
+						</th>
+						<th
+							scope="col"
+							class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider"
+						>
+							Email
+						</th>
+					</tr>
+				</thead>
+				<tbody id="search-results" class="divide-y divide-gray-600">
+					<!-- Your search results go here -->
+				</tbody>
+			</table>
 		</div>
 	</body>
 </html>
