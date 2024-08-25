@@ -3,12 +3,18 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="htmx-config" content='{"selfRequestsOnly":"false"}' />
 		<script
-			src="https://unpkg.com/htmx.org@2.0.2"
-			integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+			src="https://unpkg.com/htmx.org@2.0.2/dist/htmx.js"
+			integrity="sha384-yZq+5izaUBKcRgFbxgkRYwpHhHHCpp5nseXp0MEQ1A4MTWVMnqkmcuFez8x5qfxr"
 			crossorigin="anonymous"
 		></script>
 		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+			document.addEventListener("htmx:configRequest", (evt) => {
+				evt.detail.headers = [];
+			});
+		</script>
 
 		<title>Simple HTMX Page</title>
 	</head>
@@ -18,6 +24,10 @@
 				My first HTMX page
 			</h1>
 			<button
+				id="getButton"
+				hx-get="https://jsonplaceholder.typicode.com/users"
+				hx-swap="outerHTML"
+				hx-trigger="click"
 				class="bg-blue-500 text-white px-2 py-3 mx-5 my-3 rounded-lg"
 			>
 				Fetch Users
