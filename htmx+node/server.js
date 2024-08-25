@@ -69,9 +69,12 @@ app.get("/get-temperature", async (req, res) => {
 app.post("/search", (req, res) => {
 	const search = req.body.search?.toLowerCase();
 	const contacts = [
-		{ email: "johndoe@email.com", name: "John Doe" },
-		{ email: "sherlokholmes@email.com", name: "Sherlok Holmes" },
-		{ email: "maryjane@email.com", name: "Mary Jane" },
+		{ name: "John Doe", email: "john@example.com" },
+		{ name: "Jane Doe", email: "jane@example.com" },
+		{ name: "Alice Smith", email: "alice@example.com" },
+		{ name: "Bob Williams", email: "bob@example.com" },
+		{ name: "Mary Harris", email: "mary@example.com" },
+		{ name: "David Mitchell", email: "david@example.com" },
 	];
 
 	if (!search) {
