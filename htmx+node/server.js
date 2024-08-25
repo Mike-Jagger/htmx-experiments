@@ -85,7 +85,8 @@ app.post("/search", (req, res) => {
 	];
 
 	if (!search) {
-		res.send("<tr></tr>");
+		res.status(200).send("<tr></tr>");
+		return;
 	}
 
 	const searchResults = contacts.filter((contact) => {
