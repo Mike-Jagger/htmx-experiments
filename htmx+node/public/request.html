@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="htmx-config" content='{"selfRequestsOnly":"false"}' />
+		<script
+			src="https://unpkg.com/htmx.org@2.0.2/dist/htmx.js"
+			integrity="sha384-yZq+5izaUBKcRgFbxgkRYwpHhHHCpp5nseXp0MEQ1A4MTWVMnqkmcuFez8x5qfxr"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+			document.addEventListener("htmx:configRequest", (evt) => {
+				evt.detail.headers = [];
+			});
+		</script>
+
+		<title>Simple HTMX Page</title>
+	</head>
+	<body>
+		<div class="flex flex-col items-center px-0 py-0">
+			<h1 class="px-1 py-0 my-3 text-2xl font-bold">
+				My first HTMX page
+			</h1>
+			<button
+				id="getButton"
+				hx-get="/users"
+				hx-target="#users"
+				hx-vals='{"limit": 5}'
+				hx-indicator="#loading"
+				class="bg-blue-500 text-white px-2 py-3 mx-5 my-3 rounded-lg"
+			>
+				Fetch Users
+			</button>
+			<span id="loading" class="htmx-indicator"
+				><img
+					src="./img/loader.gif"
+					alt="loading..."
+					class="m-auto h-10"
+			/></span>
+			<div id="users"></div>
+		</div>
+	</body>
+</html>
