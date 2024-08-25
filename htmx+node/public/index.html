@@ -25,13 +25,13 @@
 			</h1>
 			<button
 				id="getButton"
-				hx-get="https://jsonplaceholder.typicode.com/users"
-				hx-swap="outerHTML"
-				hx-trigger="click"
+				hx-get="/users"
+				hx-target="#users"
 				class="bg-blue-500 text-white px-2 py-3 mx-5 my-3 rounded-lg"
 			>
 				Fetch Users
 			</button>
+			<div id="users"></div>
 		</div>
 	</body>
 </html>
