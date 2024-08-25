@@ -109,6 +109,37 @@ app.post("/search", (req, res) => {
 	);
 });
 
+app.post("/search/api", async (req, res) => {
+	const search = req.body.search?.toLowerCase();
+
+	const response = await fetch(`https://jsonplaceholder.typicode.com/users`);
+	const contacts = await response.json();
+
+	if (!search) {
+		res.status(200).send("<tr></tr>");
+		return;
+	}
+
+	const searchResults = contacts.filter((contact) => {
+		const name = contact.name.toLowerCase();
+		const email = contact.email.toLowerCase();
+
+		return name.includes(search) || email.includes(search);
+	});
+
+	res.status(200).send(
+		searchResults
+			.map(
+				(contact) =>
+					`<tr>
+						<td><div class="my-4 p-2">${contact.name}</div></td>
+						<td><div class="my-4 p-2">${contact.email}</div></td>
+					<tr/>`
+			)
+			.join("")
+	);
+});
+
 app.listen(3000, () => {
 	console.log("Sever listening to port 3000");
 });
