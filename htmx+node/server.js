@@ -36,6 +36,18 @@ app.get("/users", async (req, res) => {
 	}, 2000);
 });
 
+app.get("/calculate", async (req, res) => {
+	const temp = parseFloat(+req.query.fahrenheit);
+
+	res.status(200).send(`
+		<span
+			id="celcius"
+			class="text-center bg-neutral-800 text-2xl font-bold w-full text-white"
+		>
+			${(temp - 32) * (5 / 9).toFixed(0)}
+		</span>`);
+});
+
 app.listen(3000, () => {
 	console.log("Sever listening to port 3000");
 });
