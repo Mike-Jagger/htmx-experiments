@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import xss from "xss";
 
 const app = express();
 
@@ -202,7 +203,7 @@ app.post("/contact/email", (req, res) => {
 	}
 });
 
-app.get("profile/:id/edit", (req, res) => {
+app.get("/profile/:id/edit", (req, res) => {
 	const profileId = req.url.id;
 	res.status(200).send(
 		`
