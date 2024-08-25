@@ -96,17 +96,19 @@ app.post("/search", (req, res) => {
 		return name.includes(search) || email.includes(search);
 	});
 
-	res.status(200).send(
-		searchResults
-			.map(
-				(contact) =>
-					`<tr>
+	setTimeout(() => {
+		res.status(200).send(
+			searchResults
+				.map(
+					(contact) =>
+						`<tr>
 						<td><div class="my-4 p-2">${contact.name}</div></td>
 						<td><div class="my-4 p-2">${contact.email}</div></td>
 					<tr/>`
-			)
-			.join("")
-	);
+				)
+				.join("")
+		);
+	}, 2000);
 });
 
 app.post("/search/api", async (req, res) => {
@@ -127,17 +129,19 @@ app.post("/search/api", async (req, res) => {
 		return name.includes(search) || email.includes(search);
 	});
 
-	res.status(200).send(
-		searchResults
-			.map(
-				(contact) =>
-					`<tr>
+	setTimeout(() => {
+		res.status(200).send(
+			searchResults
+				.map(
+					(contact) =>
+						`<tr>
 						<td><div class="my-4 p-2">${contact.name}</div></td>
 						<td><div class="my-4 p-2">${contact.email}</div></td>
 					<tr/>`
-			)
-			.join("")
-	);
+				)
+				.join("")
+		);
+	}, 1000);
 });
 
 app.listen(3000, () => {
