@@ -1,7 +1,14 @@
 import express from "express";
+import cors from "cors";
 
 const app = express();
 
+const corsOptions = {
+	credentials: true,
+	origin: ["http:localhost:3000"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
