@@ -17,17 +17,19 @@ app.get("/users", async (req, res) => {
 	const response = await fetch("https://jsonplaceholder.typicode.com/users");
 	const users = await response.json();
 
-	res.status(200).send(`
-		<h1 class="text-2xl font-bold my-4"> Users </h1>
-		<ul>
-			${users
-				.map(
-					(user) =>
-						`<li class='mx-0 my-0'>${user.id}: ${user.name}</li>`
-				)
-				.join("")}
-		</ul>
-	`);
+	setTimeout(async () => {
+		res.status(200).send(`
+			<h1 class="text-2xl font-bold my-4"> Users </h1>
+			<ul>
+				${users
+					.map(
+						(user) =>
+							`<li class='mx-0 my-0'>${user.id}: ${user.name}</li>`
+					)
+					.join("")}
+			</ul>
+		`);
+	}, 2000);
 });
 
 app.listen(3000, () => {
