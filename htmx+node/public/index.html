@@ -16,30 +16,42 @@
 			});
 		</script>
 
-		<title>Simple HTMX Page</title>
+		<title>Fahrenheit to Degrees Calculator</title>
 	</head>
 	<body>
-		<div class="flex flex-col items-center px-0 py-0">
-			<h1 class="px-1 py-0 my-3 text-2xl font-bold">
-				My first HTMX page
-			</h1>
-			<button
-				id="getButton"
-				hx-get="/users"
-				hx-target="#users"
-				hx-vals='{"limit": 5}'
-				hx-indicator="#loading"
-				class="bg-blue-500 text-white px-2 py-3 mx-5 my-3 rounded-lg"
+		<form
+			class="flex flex-row justify-center items-center px-5 py-5 w-screen h-screen bg-neutral-900"
+		>
+			<p
+				class="flex flex-col-reverse items-center h-min w-2/5 bg-neutral-700 mx-3 border border-neutral-500 rounded"
 			>
-				Fetch Users
-			</button>
-			<span id="loading" class="htmx-indicator"
-				><img
-					src="./img/loader.gif"
-					alt="loading..."
-					class="m-auto h-10"
-			/></span>
-			<div id="users"></div>
-		</div>
+				<label
+					for="fahrenheit"
+					class="text-neutral-200 font-lg text-base"
+					>Fahrenheit</label
+				>
+				<input
+					type="text"
+					id="fahrenheit"
+					name="fahrenheit"
+					value="32"
+					class="text-center bg-neutral-800 text-2xl font-bold w-full text-white"
+				/>
+			</p>
+			<span class="text-4xl text-white">=</span>
+			<p
+				class="flex flex-col-reverse items-center h-min w-2/5 bg-neutral-700 mx-3 border border-neutral-500 rounded"
+			>
+				<label for="celcius" class="text-neutral-200 font-lg text-base"
+					>Celcius</label
+				>
+				<span
+					id="celcius"
+					class="text-center bg-neutral-800 text-2xl font-bold w-full text-white"
+				>
+					0
+				</span>
+			</p>
+		</form>
 	</body>
 </html>
