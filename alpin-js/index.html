@@ -46,7 +46,6 @@
 				<div class="mt-4"></div>
 
 				<div x-effect="console.log(open)"></div>
-				<div x-effect="console.log(movies)"></div>
 
 				<input
 					type="text"
@@ -97,6 +96,18 @@
 						...
 					</div>
 					<div>This is another div</div>
+				</div>
+				<div
+					x-init="$watch('movies', value => console.log(value))"
+				></div>
+
+				<div @notify="alert('You\'ve been notified')">
+					<button
+						x-on:click="$dispatch('notify')"
+						class="bg-green-700 text-white p-2 mt-4 rounded-lg"
+					>
+						Notify
+					</button>
 				</div>
 			</div>
 		</div>
