@@ -72,6 +72,24 @@
 				>
 					Add movie
 				</button>
+
+				<div class="my-6">
+					<div x-ref="text" class="mb-2">Hello world</div>
+					<button
+						class="bg-blue-600 text-white p-2 rounded-lg"
+						x-ref="edit_HW"
+						x-on:click="$refs.text.innerHTML='Not Hello World anymore'"
+					>
+						Edit HW
+					</button>
+					<button
+						class="bg-blue-600 text-white p-2 rounded-lg"
+						x-ref="rmv_items"
+						x-on:click="$refs.text.remove(); $refs.edit_HW.remove(); $refs.rmv_items.remove()"
+					>
+						Remove Components
+					</button>
+				</div>
 			</div>
 		</div>
 	</body>
