@@ -118,6 +118,13 @@
 				</button>
 			</div>
 		</div>
+
+		<footer x-data="">
+			<p>
+				Copyright &copy; <span x-text="new Date().getFullYear()"></span>
+			</p>
+		</footer>
+
 		<script>
 			function getLatestMovie(movies) {
 				console.log(movies.slice(-1).pop());
