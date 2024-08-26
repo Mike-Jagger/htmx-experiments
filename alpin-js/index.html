@@ -109,7 +109,19 @@
 						Notify
 					</button>
 				</div>
+
+				<button
+					@click="getLatestMovie($data.movies)"
+					class="bg-orange-800 text-white mt-6 p-2 rounded-lg"
+				>
+					Get Latest Post
+				</button>
 			</div>
 		</div>
+		<script>
+			function getLatestMovie(movies) {
+				console.log(movies.slice(-1).pop());
+			}
+		</script>
 	</body>
 </html>
