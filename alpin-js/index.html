@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script src="https://unpkg.com/alpinejs" defer></script>
 		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<style>
 			[x-cloak] {
 				display: none;
@@ -24,7 +25,8 @@
                 movies: [
                     {title: 'movie1'},
                     {title: 'movie2'}
-                ]
+                ],
+                showFetchedHTML: false,
             }
             "
 			>
@@ -73,7 +75,7 @@
 					Add movie
 				</button>
 
-				<div class="my-6">
+				<div class="my-5">
 					<div x-ref="text" class="mb-2">Hello world</div>
 					<button
 						class="bg-blue-600 text-white p-2 rounded-lg"
@@ -84,11 +86,17 @@
 					</button>
 					<button
 						class="bg-blue-600 text-white p-2 rounded-lg"
-						x-ref="rmv_items"
-						x-on:click="$refs.text.remove(); $refs.edit_HW.remove(); $refs.rmv_items.remove()"
+						x-on:click="$refs.text.remove(); $refs.edit_HW.remove(); $el.remove(); showFetchedHTML=true"
 					>
 						Remove Components
 					</button>
+					<div
+						x-show="showFetchedHTML"
+						x-html="(await axios.get('./outer.html')).data"
+					>
+						...
+					</div>
+					<div>This is another div</div>
 				</div>
 			</div>
 		</div>
