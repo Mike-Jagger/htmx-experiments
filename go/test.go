@@ -62,6 +62,8 @@ func main() {
 	PrintTypeNValue(Uint64)
 	PrintTypeNValue(Complex128)
 
+	fmt.Println()
+
 	PrintTypeNValue(Bool)
 	PrintTypeNValue(Int32)
 	PrintTypeNValue(Uint)
@@ -70,11 +72,20 @@ func main() {
 	PrintTypeNValue(Byte)
 	PrintTypeNValue(Complex64)
 
+	fmt.Println()
+
 	PrintTypeNValue(float64(Int))
+
+	fmt.Println()
 
 	integerValue := 24
 	fmt.Println(math.Sqrt(2.22 + float64(integerValue)))
 
+	fmt.Println()
+
+	fmt.Printf("%T\n", 2)
+	fmt.Printf("%T\n", 2.0)
+	fmt.Printf("%T\n", 0 + 0i)
 	// var c, python = 1, true
 	// java := "It is just Java bro, but with the dot:column declaration"
 
