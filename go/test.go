@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"math"
-
-	"rsc.io/quote"
 )
 
+func add(x int, y int) int {
+	return x + y
+}
+
 func main() {
-	fmt.Printf("My favorite number is: %g", math.Sqrt(8))
-	fmt.Println(quote.Go())
+	fmt.Println(add(1, 2))
 }
