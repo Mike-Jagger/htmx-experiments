@@ -21,8 +21,9 @@ func split(sum int) (x, y int) {
 var i, j int = 1, 2
 
 func main() {
-	var c, python, java = 1, true, "It's just java bro"
-	
+	var c, python = 1, true
+	java := "It is just Java bro, but with the dot:column declaration"
+
 	fmt.Println(add(1, 2))
 	
 	a, b := swap("Hello", "World!")
