@@ -61,6 +61,13 @@ func main() {
 	PrintTypeNValue(Uint64)
 	PrintTypeNValue(Complex128)
 
+	PrintTypeNValue(Bool)
+	PrintTypeNValue(Int32)
+	PrintTypeNValue(Uint)
+	PrintTypeNValue(Float64)
+	PrintTypeNValue(Rune)
+	PrintTypeNValue(Byte)
+	PrintTypeNValue(Complex64)
 
 	// var c, python = 1, true
 	// java := "It is just Java bro, but with the dot:column declaration"
