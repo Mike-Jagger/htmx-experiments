@@ -18,7 +18,11 @@ func split(sum int) (x, y int) {
 	return
 }
 
+var c, python, java bool
+
 func main() {
+	var i bool
+
 	fmt.Println(add(1, 2))
 	
 	a, b := swap("Hello", "World!")
@@ -26,4 +30,6 @@ func main() {
 	fmt.Println(a, b)
 
 	fmt.Println(split(100))
+
+	fmt.Println(i, c, python, java)
 }
