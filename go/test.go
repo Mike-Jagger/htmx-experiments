@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/cmplx"
 )
 
@@ -68,6 +69,11 @@ func main() {
 	PrintTypeNValue(Rune)
 	PrintTypeNValue(Byte)
 	PrintTypeNValue(Complex64)
+
+	PrintTypeNValue(float64(Int))
+
+	integerValue := 24
+	fmt.Println(math.Sqrt(2.22 + float64(integerValue)))
 
 	// var c, python = 1, true
 	// java := "It is just Java bro, but with the dot:column declaration"
