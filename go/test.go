@@ -99,6 +99,16 @@ func main() {
 	PrintTypeNValue(cString)
 	PrintTypeNValue(cBool)
 
+	fmt.Println()
+
+	const (
+		Big = 1 << 100
+		Small = Big >> 99
+	)
+
+	fmt.Printf("This is going to return float even though constant \n%v \n", Big * 0.1)
+	fmt.Printf("This is going to return int even though constant \n%v", Small * 10 + 1)
+
 	// var c, python = 1, true
 	// java := "It is just Java bro, but with the dot:column declaration"
 
