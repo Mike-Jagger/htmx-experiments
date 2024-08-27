@@ -86,6 +86,19 @@ func main() {
 	fmt.Printf("%T\n", 2)
 	fmt.Printf("%T\n", 2.0)
 	fmt.Printf("%T\n", 0 + 0i)
+
+	fmt.Println()
+
+	const cInt = 2
+	const cString = "Constant string"
+	const cBool = true
+	const cChar = "世界"
+
+	PrintTypeNValue(cInt)
+	PrintTypeNValue(cChar)
+	PrintTypeNValue(cString)
+	PrintTypeNValue(cBool)
+
 	// var c, python = 1, true
 	// java := "It is just Java bro, but with the dot:column declaration"
 
