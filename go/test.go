@@ -73,93 +73,110 @@ func PrintTypeNValue(_var interface{}) {
 	fmt.Printf("Type: %T Value: %v \n", _var, _var)
 }
 
-func main() {
-	fmt.Println(
-		pow(3, 2, 9),
-		pow(2, 2, 10),
-	)
-
-
-	PrintTypeNValue(Bool)
-	PrintTypeNValue(String)
-	PrintTypeNValue(Int)
-	PrintTypeNValue(Uint64)
-	PrintTypeNValue(Complex128)
-
-	fmt.Println()
-
-	PrintTypeNValue(Bool)
-	PrintTypeNValue(Int32)
-	PrintTypeNValue(Uint)
-	PrintTypeNValue(Float64)
-	PrintTypeNValue(Rune)
-	PrintTypeNValue(Byte)
-	PrintTypeNValue(Complex64)
-
-	fmt.Println()
-
-	PrintTypeNValue(float64(Int))
-
-	fmt.Println()
-
-	integerValue := 24
-	fmt.Println(math.Sqrt(2.22 + float64(integerValue)))
-
-	fmt.Println()
-
-	fmt.Printf("%T\n", 2)
-	fmt.Printf("%T\n", 2.0)
-	fmt.Printf("%T\n", 0 + 0i)
-
-	fmt.Println()
-
-	const cInt = 2
-	const cString = "Constant string"
-	const cBool = true
-	const cChar = "世界"
-
-	PrintTypeNValue(cInt)
-	PrintTypeNValue(cChar)
-	PrintTypeNValue(cString)
-	PrintTypeNValue(cBool)
-
-	fmt.Println()
-
-	const (
-		Big = 1 << 100
-		Small = Big >> 99
-	)
-
-	fmt.Printf("This is going to return float even though constant \n%v \n", Big * 0.1)
-	fmt.Printf("This is going to return int even though constant \n%v", Small * 10 + 1)
-
-
-
-
-	sum := 0
-	for i := 0; i < 10; i++ {
-		fmt.Printf("i is %v and sum is %v \n", i, sum)
-		sum = i * 10
-	} 
-
-
-	var c bool = true
+func Sqrt(x float64) float64 {
+	var z float64 = float64(1)
 	
-	for c {
-		if !c {
-			fmt.Println("If it comes here then not while loop")
-			break
-		}
-
-		fmt.Printf("Value of c is %v \n", c)
-
-		c = false
+	var prev float64
+	
+	for ; z > math.Sqrt(x) || prev != z; {
+		fmt.Printf("z:%v x:%v \n", z, math.Sqrt(x))
+		z -= (z*z - x) / (2 * z)
+		
+		prev = z
 	}
 	
-	fmt.Printf("Checking if condition is met and loop breaks, then while loop simulated \n")
+	return z
+}
+
+func main() {
+	fmt.Println(Sqrt(32))
+
+	// fmt.Println(
+	// 	pow(3, 2, 9),
+	// 	pow(2, 2, 10),
+	// )
+
+
+	// PrintTypeNValue(Bool)
+	// PrintTypeNValue(String)
+	// PrintTypeNValue(Int)
+	// PrintTypeNValue(Uint64)
+	// PrintTypeNValue(Complex128)
+
+	// fmt.Println()
+
+	// PrintTypeNValue(Bool)
+	// PrintTypeNValue(Int32)
+	// PrintTypeNValue(Uint)
+	// PrintTypeNValue(Float64)
+	// PrintTypeNValue(Rune)
+	// PrintTypeNValue(Byte)
+	// PrintTypeNValue(Complex64)
+
+	// fmt.Println()
+
+	// PrintTypeNValue(float64(Int))
+
+	// fmt.Println()
+
+	// integerValue := 24
+	// fmt.Println(math.Sqrt(2.22 + float64(integerValue)))
+
+	// fmt.Println()
+
+	// fmt.Printf("%T\n", 2)
+	// fmt.Printf("%T\n", 2.0)
+	// fmt.Printf("%T\n", 0 + 0i)
+
+	// fmt.Println()
+
+	// const cInt = 2
+	// const cString = "Constant string"
+	// const cBool = true
+	// const cChar = "世界"
+
+	// PrintTypeNValue(cInt)
+	// PrintTypeNValue(cChar)
+	// PrintTypeNValue(cString)
+	// PrintTypeNValue(cBool)
+
+	// fmt.Println()
+
+	// const (
+	// 	Big = 1 << 100
+	// 	Small = Big >> 99
+	// )
+
+	// fmt.Printf("This is going to return float even though constant \n%v \n", Big * 0.1)
+	// fmt.Printf("This is going to return int even though constant \n%v", Small * 10 + 1)
+
+
+
+
+	// sum := 0
+	// for i := 0; i < 10; i++ {
+	// 	fmt.Printf("i is %v and sum is %v \n", i, sum)
+	// 	sum = i * 10
+	// } 
+
+
+	// var c bool = true
+	
+	// for c {
+	// 	if !c {
+	// 		fmt.Println("If it comes here then not while loop")
+	// 		break
+	// 	}
+
+	// 	fmt.Printf("Value of c is %v \n", c)
+
+	// 	c = false
+	// }
+	
+	// fmt.Printf("Checking if condition is met and loop breaks, then while loop simulated \n")
 	
 
-	fmt.Println(sqrt(2), sqrt(-4))
+	// fmt.Println(sqrt(2), sqrt(-4))
 	// var c, python = 1, true
 	// java := "It is just Java bro, but with the dot:column declaration"
 
