@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"math/cmplx"
+	"runtime"
 )
 
 // func add(x, y int) int {
@@ -89,8 +90,18 @@ func Sqrt(x float64) float64 {
 }
 
 func main() {
-	fmt.Println(Sqrt(32))
+	// fmt.Println(Sqrt(32))
 
+	fmt.Print("Go runs on: ")
+
+	switch os := runtime.GOOS; os {
+	case "darwin":
+		fmt.Println("OS X")
+	case "linux":
+		fmt.Println("Linux")
+	default:
+		fmt.Printf("%s.\n", os)
+	}
 	// fmt.Println(
 	// 	pow(3, 2, 9),
 	// 	pow(2, 2, 10),
