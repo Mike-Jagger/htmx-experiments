@@ -16,6 +16,8 @@
 				refreshTime: 5,
 			});
 
+			let cameras_;
+
 			scanner.addListener("scan", function (content) {
 				alert("Scanned QR code: " + content);
 			});
@@ -23,9 +25,10 @@
 			Instascan.Camera.getCameras()
 				.then(function (cameras) {
 					if (cameras.length > 0) {
-						scanner.start(cameras[0]);
+						cameras_ = cameras;
 					} else {
 						console.error("No cameras found.");
+						alert("No Cameras found.");
 					}
 				})
 				.catch(function (e) {
@@ -42,7 +45,7 @@
 					) {
 						window.location = "https://www.scan.me";
 					} else {
-						scanner.start();
+						scanner.start(cameras_[1]);
 					}
 				});
 		</script>
