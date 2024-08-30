@@ -121,7 +121,7 @@ func main() {
 
 	var c bool = true
 	
-	for ; c; {
+	for c {
 		if !c {
 			fmt.Println("If it comes here then not while loop")
 			break
