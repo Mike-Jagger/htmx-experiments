@@ -90,6 +90,12 @@ func Sqrt(x float64) float64 {
 	return z
 }
 
+func willDeferPrints(a, b string) {
+	defer fmt.Println(b)
+
+	fmt.Println(a)
+}
+
 func main() {
 	// fmt.Println(Sqrt(32))
 
@@ -127,6 +133,8 @@ func main() {
 	default:
 		fmt.Print("Good evening")
 	}
+
+	willDeferPrints("hello", "world")
 	// fmt.Println(
 	// 	pow(3, 2, 9),
 	// 	pow(2, 2, 10),
