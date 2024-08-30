@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/cmplx"
 	"runtime"
+	"time"
 )
 
 // func add(x, y int) int {
@@ -101,6 +102,30 @@ func main() {
 		fmt.Println("Linux")
 	default:
 		fmt.Printf("%s.\n", os)
+	}
+
+	saturday := time.Saturday
+
+	switch today := time.Now().Weekday(); saturday { 
+	case today:
+		fmt.Println("It's Saturday!")
+	case today + 1:
+		fmt.Println("It's tomorrow")
+	case today + 2:
+		fmt.Println("It's in 2 days")
+	default:
+		fmt.Println("It is too far away")
+	}
+
+	hour := time.Now().Hour()
+
+	switch {
+	case hour < 12:
+		fmt.Println("Good morning!")
+	case hour < 17:
+		fmt.Println("Good afternoon")
+	default:
+		fmt.Print("Good evening")
 	}
 	// fmt.Println(
 	// 	pow(3, 2, 9),
