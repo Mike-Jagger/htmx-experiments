@@ -22,6 +22,24 @@ import (
 
 // var i, j int = 1, 2
 
+
+func sqrt(x float64) string {
+	if x < 0 {
+		return sqrt(-x) + "i"
+	}
+	return fmt.Sprint(math.Sqrt(x))
+}
+
+func pow(x, n, lim float64) float64 {
+	if v:= math.Pow(x, n); v < lim {
+		return v
+	} else {
+		fmt.Printf("%g >= %g\n", v, lim)
+	}
+
+	return lim
+}
+
 var (
 	Bool bool = true
 
@@ -56,6 +74,12 @@ func PrintTypeNValue(_var interface{}) {
 }
 
 func main() {
+	fmt.Println(
+		pow(3, 2, 9),
+		pow(2, 2, 10),
+	)
+
+
 	PrintTypeNValue(Bool)
 	PrintTypeNValue(String)
 	PrintTypeNValue(Int)
@@ -131,7 +155,11 @@ func main() {
 
 		c = false
 	}
+	
 	fmt.Printf("Checking if condition is met and loop breaks, then while loop simulated \n")
+	
+
+	fmt.Println(sqrt(2), sqrt(-4))
 	// var c, python = 1, true
 	// java := "It is just Java bro, but with the dot:column declaration"
 
