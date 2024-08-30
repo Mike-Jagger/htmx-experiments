@@ -2,14 +2,36 @@
 <html>
 	<head>
 		<title>QR Code Scanner</title>
+		<script type="text/javascript" src="instascan.min.js"></script>
 	</head>
 	<body>
-		<button onclick="scanQR()">Scan QR Code</button>
+		<button id="scan-btn">Scan QR Code</button>
+		<video id="preview" width="300" height="200"></video>
 
 		<script>
-			function scanQR() {
-				window.location = "https://www.scan.me";
-			}
+			const scanner = new Instascan.Scanner({
+				video: document.getElementById("preview"),
+				scanPeriod: 5,
+				refreshTime: 5,
+			});
+
+			scanner.addListener("scan", function (content) {
+				alert("Scanned QR code: " + content);
+			});
+
+			document
+				.getElementById("scan-btn")
+				.addEventListener("click", function () {
+					if (
+						/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+							navigator.userAgent
+						)
+					) {
+						window.location = "https://www.scan.me";
+					} else {
+						scanner.start();
+					}
+				});
 		</script>
 	</body>
 </html>
