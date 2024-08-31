@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/cmplx"
+	"strings"
 )
 
 // func add(x, y int) int {
@@ -134,19 +135,42 @@ var (
 // 	g(i + 1)
 // }
 
-func Pic(dx, dy int) [][]uint8 {
-	pic := make([][]uint8, dy)
+// func Pic(dx, dy int) [][]uint8 {
+// 	pic := make([][]uint8, dy)
 
-	// for i := range pic {
-	// 	pic[i] = make([]uint8, dx)
-	// }
+// 	for i := range pic {
+// 		pic[i] = make([]uint8, dx)
+// 	}
 
-	return pic
+// 	return pic
+// }
+
+func WordCount(s string) map[string]int {
+	stringSlice := strings.Fields(s)
+
+	if len(stringSlice) == 0 {
+		return map[string]int{
+			"": 0,
+		}
+	}
+
+	wordCountMap := make(map[string]int)
+	
+	for _, v := range stringSlice {
+		if wordCountMap[v] != 0 {
+			wordCountMap[v] += 1
+		} else {
+			wordCountMap[v] = 1
+		}
+	}
+
+	return wordCountMap
 }
 
 func main() {
+	fmt.Println(WordCount("This is a sentence with a few a's with an a"))
 
-	fmt.Printf("%v", Pic(6, 6))
+	// fmt.Printf("%v", Pic(6, 6))
 
 	// f()
 	// fmt.Println("Returned normally from f")
