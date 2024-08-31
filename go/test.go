@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/cmplx"
-	"strings"
 )
 
 // func add(x, y int) int {
@@ -145,30 +145,41 @@ var (
 // 	return pic
 // }
 
-func WordCount(s string) map[string]int {
-	stringSlice := strings.Fields(s)
+// func WordCount(s string) map[string]int {
+// 	stringSlice := strings.Fields(s)
 
-	if len(stringSlice) == 0 {
-		return map[string]int{
-			"": 0,
-		}
-	}
+// 	if len(stringSlice) == 0 {
+// 		return map[string]int{
+// 			"": 0,
+// 		}
+// 	}
 
-	wordCountMap := make(map[string]int)
+// 	wordCountMap := make(map[string]int)
 	
-	for _, v := range stringSlice {
-		if wordCountMap[v] != 0 {
-			wordCountMap[v] += 1
-		} else {
-			wordCountMap[v] = 1
-		}
-	}
+// 	for _, v := range stringSlice {
+// 		if wordCountMap[v] != 0 {
+// 			wordCountMap[v] += 1
+// 		} else {
+// 			wordCountMap[v] = 1
+// 		}
+// 	}
 
-	return wordCountMap
+// 	return wordCountMap
+// }
+
+func compute(fn func(float64, float64) float64) float64 {	
+	return fn(3, 2)
+}
+
+func square(x, y float64) float64 {
+	return x * y
 }
 
 func main() {
-	fmt.Println(WordCount("This is a sentence with a few a's with an a"))
+	fmt.Println(compute(math.Pow))
+	fmt.Println(compute(square))
+
+	// fmt.Println(WordCount("This is a sentence with a few a's with an a"))
 
 	// fmt.Printf("%v", Pic(6, 6))
 
