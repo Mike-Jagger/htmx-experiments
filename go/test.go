@@ -2,9 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"math/cmplx"
-	"os"
 )
 
 // func add(x, y int) int {
@@ -95,50 +93,63 @@ var (
 // 	fmt.Println(a)
 // }
 
-func CopyFile(dstName, srcName string) (written int64, err error) {
-	src, err := os.Open(srcName)
-	if err != nil {
-		return
-	}
-	defer src.Close()
+// func CopyFile(dstName, srcName string) (written int64, err error) {
+// 	src, err := os.Open(srcName)
+// 	if err != nil {
+// 		return
+// 	}
+// 	defer src.Close()
 
-	dst, err := os.Create(dstName)
-	if err != nil {
-		return
-	}
-	defer dst.Close()
+// 	dst, err := os.Create(dstName)
+// 	if err != nil {
+// 		return
+// 	}
+// 	defer dst.Close()
 
-	return io.Copy(src, dst)
-}
+// 	return io.Copy(src, dst)
+// }
 
-func f() {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Printf("Recoverd in f %v\n", r)
-		}
-	}()
+// func f() {
+// 	defer func() {
+// 		if r := recover(); r != nil {
+// 			fmt.Printf("Recoverd in f %v\n", r)
+// 		}
+// 	}()
 
-	fmt.Println("Calling g")
-	g(0)
-	fmt.Println("Returned normally from g")
+// 	fmt.Println("Calling g")
+// 	g(0)
+// 	fmt.Println("Returned normally from g")
 
-}
+// }
 
-func g(i int64) {
-	if i > 3 {
-		fmt.Println("Panicking!")
-		panic(fmt.Sprintf("%v", i))
-	}
+// func g(i int64) {
+// 	if i > 3 {
+// 		fmt.Println("Panicking!")
+// 		panic(fmt.Sprintf("%v", i))
+// 	}
 
-	defer fmt.Printf("Defer G %v\n", i)
-	fmt.Printf("Print in G %v\n", i)
+// 	defer fmt.Printf("Defer G %v\n", i)
+// 	fmt.Printf("Print in G %v\n", i)
 
-	g(i + 1)
+// 	g(i + 1)
+// }
+
+func Pic(dx, dy int) [][]uint8 {
+	pic := make([][]uint8, dy)
+
+	// for i := range pic {
+	// 	pic[i] = make([]uint8, dx)
+	// }
+
+	return pic
 }
 
 func main() {
-	f()
-	fmt.Println("Returned normally from f")
+
+	fmt.Printf("%v", Pic(6, 6))
+
+	// f()
+	// fmt.Println("Returned normally from f")
 
 
 	// fmt.Println(Sqrt(32))
