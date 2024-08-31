@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"math/cmplx"
 )
 
@@ -167,17 +166,41 @@ var (
 // 	return wordCountMap
 // }
 
-func compute(fn func(float64, float64) float64) float64 {	
-	return fn(3, 2)
-}
+// func compute(fn func(float64, float64) float64) float64 {	
+// 	return fn(3, 2)
+// }
 
-func square(x, y float64) float64 {
-	return x * y
+// func square(x, y float64) float64 {
+// 	return x * y
+// }
+
+func modifyPatientCount(action bool, countPtr *int) func (int) int{
+	if action {
+		return func(amount int) int {
+			*countPtr += amount
+			return *countPtr
+		}
+	} else {
+		return func(amount int) int {
+			*countPtr -= amount
+			return *countPtr
+		}
+	}
 }
 
 func main() {
-	fmt.Println(compute(math.Pow))
-	fmt.Println(compute(square))
+	patientCount := 0
+	patientCountPtr := &patientCount
+
+	addPatient, removePatient := modifyPatientCount(true, patientCountPtr), modifyPatientCount(false, patientCountPtr)
+	
+	for count := 0; count < 100; count++ {
+		fmt.Println(addPatient(2))
+		fmt.Println(removePatient(1))
+	}
+	
+	// fmt.Println(compute(math.Pow))
+	// fmt.Println(compute(square))
 
 	// fmt.Println(WordCount("This is a sentence with a few a's with an a"))
 
