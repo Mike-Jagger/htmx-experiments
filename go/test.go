@@ -224,65 +224,83 @@ var (
 // 	return
 // }
 
-type I interface {
-	M()
+// type I interface {
+// 	M()
+// }
+
+// type T struct {
+// 	S string
+// } 
+
+// func (t *T) M() {
+// 	if t == nil {
+// 		fmt.Println("<nil>")
+// 		return
+// 	}
+
+// 	fmt.Println((*t).S)
+// }
+
+// type F float64
+
+// func (f F) M() {
+// 	fmt.Println(f)
+// }
+
+// func describe(i I) {
+// 	fmt.Printf("(%v, %T)\n", i, i)
+// }
+
+// func describeI(i interface{}) {
+// 	fmt.Printf("(%v, %T)\n", i, i)
+// }
+
+// func isPanicking(i interface{}) {
+// 	defer func() {
+// 		if r := recover(); r != nil {
+// 			fmt.Println("panicking because of wrong type assertion:", r)
+// 		}
+// 	}()
+
+// 	switch v := i.(type) {
+// 	case int:
+// 		fmt.Printf("is of type int: %T\n", v)
+// 	case float64:
+// 		fmt.Printf("is of type float: %T\n", v)
+// 	default:
+// 		fmt.Printf("is of other type: %T", v)
+// 	}
+// }
+
+type Person struct {
+	Name string
+	Age int
 }
 
-type T struct {
-	S string
-} 
-
-func (t *T) M() {
-	if t == nil {
-		fmt.Println("<nil>")
-		return
-	}
-
-	fmt.Println((*t).S)
-}
-
-type F float64
-
-func (f F) M() {
-	fmt.Println(f)
-}
-
-func describe(i I) {
-	fmt.Printf("(%v, %T)\n", i, i)
-}
-
-func describeI(i interface{}) {
-	fmt.Printf("(%v, %T)\n", i, i)
-}
-
-func isPanicking(i interface{}) {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("panicking because of wrong type assertion:", r)
-		}
-	}()
-
-	var f float64 = i.(float64)
-
-	fmt.Println("It continues from here")
-	fmt.Println(f)
+func (p Person) String() string {
+	return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
 }
 
 func main() {
-	var i interface{} = "Hello world"
+	a := Person{"John Doe", 8}
+	var description string = a.String()
+	fmt.Println(description)
+	fmt.Println(a)
+	
+	// var i interface{} = "Hello world"
 
-	describeI(i)
+	// describeI(i)
 
-	s := i.(string)
-	fmt.Println(s)
+	// s := i.(string)
+	// fmt.Println(s)
 
-	s, ok := i.(string)
-	fmt.Println(s, ok) 
+	// s, ok := i.(string)
+	// fmt.Println(s, ok) 
 
-	f, ok := i.(float64)
-	fmt.Println(f, ok)
+	// f, ok := i.(float64)
+	// fmt.Println(f, ok)
 
-	isPanicking(i)
+	// isPanicking(i)
 
 	// var i I
 
