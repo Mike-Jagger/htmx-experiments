@@ -272,20 +272,36 @@ var (
 // 	}
 // }
 
-type Person struct {
-	Name string
-	Age int
+// type Person struct {
+// 	Name string
+// 	Age int
+// }
+
+// func (p Person) String() string {
+// 	return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
+// }
+
+type IPAddr [4]byte
+
+func (ipAddr IPAddr) String() string {
+	return fmt.Sprintf("%d.%d.%d.%d", ipAddr[0], ipAddr[1], ipAddr[2], ipAddr[3])
 }
 
-func (p Person) String() string {
-	return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
-}
 
 func main() {
-	a := Person{"John Doe", 8}
-	var description string = a.String()
-	fmt.Println(description)
-	fmt.Println(a)
+	hosts := map[string]IPAddr {
+		"loopback": {127, 0, 0, 1},
+		"googleDNS": {8, 8, 8, 8},
+	}
+
+	for name, ip := range hosts {
+		fmt.Printf("%v: %v\n", name, ip)
+	}
+
+	// a := Person{"John Doe", 8}
+	// var description string = a.String()
+	// fmt.Println(description)
+	// fmt.Println(a)
 	
 	// var i interface{} = "Hello world"
 
