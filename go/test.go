@@ -211,6 +211,20 @@ func Abs(v Vertex) float64 {
 	return math.Sqrt(v.X * v.X + v.Y * v.Y)
 }
 
+func (v *Vertex) Scale(f float64) {
+	(*v).X = (*v).X * f
+	(*v).Y = (*v).Y * f
+}
+
+func (v Vertex) getScale(f float64) (x, y float64) {
+	v.X = v.X * f
+	v.Y = v.Y * f
+
+	x = v.X
+	y = v.Y
+	return
+}
+
 func main() {
 	topLeftCorner := Vertex{3, 4}
 	f := MyFLoat(-math.Sqrt2)
@@ -219,6 +233,12 @@ func main() {
 	fmt.Println(Abs(topLeftCorner))
 
 	fmt.Println(f.Abs())
+
+	topLeftCorner.Scale(8)
+	fmt.Println(topLeftCorner)
+
+	fmt.Println(topLeftCorner.getScale(1./8.))
+	fmt.Println(topLeftCorner)
 	// patientCount := 0
 	// patientCountPtr := &patientCount
 
