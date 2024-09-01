@@ -251,20 +251,52 @@ func describe(i I) {
 	fmt.Printf("(%v, %T)\n", i, i)
 }
 
+func describeI(i interface{}) {
+	fmt.Printf("(%v, %T)\n", i, i)
+}
+
+func isPanicking(i interface{}) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("panicking because of wrong type assertion:", r)
+		}
+	}()
+
+	var f float64 = i.(float64)
+
+	fmt.Println("It continues from here")
+	fmt.Println(f)
+}
+
 func main() {
-	var i I
+	var i interface{} = "Hello world"
 
-	var t *T
-	i = t
-	describe(i)
-	i.M()
+	describeI(i)
+
+	s := i.(string)
+	fmt.Println(s)
+
+	s, ok := i.(string)
+	fmt.Println(s, ok) 
+
+	f, ok := i.(float64)
+	fmt.Println(f, ok)
+
+	isPanicking(i)
+
+	// var i I
+
+	// var t *T
+	// i = t
+	// describe(i)
+	// i.M()
 	
-	describe(t)
-	t.M()
+	// describe(t)
+	// t.M()
 
-	i = &T{"Hello"}
-	describe(i)
-	i.M()
+	// i = &T{"Hello"}
+	// describe(i)
+	// i.M()
 
 	// t := T{"String type"}
 	// i = &t
