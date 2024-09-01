@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"math/cmplx"
 )
 
@@ -189,56 +188,107 @@ var (
 // 	}
 // }
 
-type MyFLoat float64
+// type MyFLoat float64
 
-func (f MyFLoat) Abs() float64 {
-	if f < 0 {
-		return float64(-f)
+// func (f MyFLoat) Abs() float64 {
+// 	if f < 0 {
+// 		return float64(-f)
+// 	}
+
+// 	return float64(f)
+// }
+
+// type Vertex struct {
+// 	X, Y float64
+// }
+
+// func (v Vertex) Abs() float64 {
+// 	return math.Sqrt(v.X * v.X + v.Y * v.Y)
+// }
+
+// func Abs(v Vertex) float64 {
+// 	return math.Sqrt(v.X * v.X + v.Y * v.Y)
+// }
+
+// func (v *Vertex) Scale(f float64) {
+// 	(*v).X = (*v).X * f
+// 	(*v).Y = (*v).Y * f
+// }
+
+// func (v Vertex) getScale(f float64) (x, y float64) {
+// 	v.X = v.X * f
+// 	v.Y = v.Y * f
+
+// 	x = v.X
+// 	y = v.Y
+// 	return
+// }
+
+type I interface {
+	M()
+}
+
+type T struct {
+	S string
+} 
+
+func (t *T) M() {
+	if t == nil {
+		fmt.Println("<nil>")
+		return
 	}
 
-	return float64(f)
+	fmt.Println((*t).S)
 }
 
-type Vertex struct {
-	X, Y float64
+type F float64
+
+func (f F) M() {
+	fmt.Println(f)
 }
 
-func (v Vertex) Abs() float64 {
-	return math.Sqrt(v.X * v.X + v.Y * v.Y)
-}
-
-func Abs(v Vertex) float64 {
-	return math.Sqrt(v.X * v.X + v.Y * v.Y)
-}
-
-func (v *Vertex) Scale(f float64) {
-	(*v).X = (*v).X * f
-	(*v).Y = (*v).Y * f
-}
-
-func (v Vertex) getScale(f float64) (x, y float64) {
-	v.X = v.X * f
-	v.Y = v.Y * f
-
-	x = v.X
-	y = v.Y
-	return
+func describe(i I) {
+	fmt.Printf("(%v, %T)\n", i, i)
 }
 
 func main() {
-	topLeftCorner := Vertex{3, 4}
-	f := MyFLoat(-math.Sqrt2)
+	var i I
+
+	var t *T
+	i = t
+	describe(i)
+	i.M()
 	
-	fmt.Println(topLeftCorner.Abs())
-	fmt.Println(Abs(topLeftCorner))
+	describe(t)
+	t.M()
 
-	fmt.Println(f.Abs())
+	i = &T{"Hello"}
+	describe(i)
+	i.M()
 
-	topLeftCorner.Scale(8)
-	fmt.Println(topLeftCorner)
+	// t := T{"String type"}
+	// i = &t
+	// describe(i)
+	// i.M()
+	
+	// f := F(math.Pi)
+	// i = f
+	// describe(f)
+	// i.M()
 
-	fmt.Println(topLeftCorner.getScale(1./8.))
-	fmt.Println(topLeftCorner)
+	// topLeftCorner := Vertex{3, 4}
+	// f := MyFLoat(-math.Sqrt2)
+	
+	// fmt.Println(topLeftCorner.Abs())
+	// fmt.Println(Abs(topLeftCorner))
+
+	// fmt.Println(f.Abs())
+
+	// topLeftCorner.Scale(8)
+	// fmt.Println(topLeftCorner)
+
+	// fmt.Println(topLeftCorner.getScale(1./8.))
+	// fmt.Println(topLeftCorner)
 	// patientCount := 0
 	// patientCountPtr := &patientCount
 
