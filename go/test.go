@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/cmplx"
 )
 
@@ -174,30 +175,59 @@ var (
 // 	return x * y
 // }
 
-func modifyPatientCount(action bool, countPtr *int) func (int) int{
-	if action {
-		return func(amount int) int {
-			*countPtr += amount
-			return *countPtr
-		}
-	} else {
-		return func(amount int) int {
-			*countPtr -= amount
-			return *countPtr
-		}
+// func modifyPatientCount(action bool, countPtr *int) func (int) int{
+// 	if action {
+// 		return func(amount int) int {
+// 			*countPtr += amount
+// 			return *countPtr
+// 		}
+// 	} else {
+// 		return func(amount int) int {
+// 			*countPtr -= amount
+// 			return *countPtr
+// 		}
+// 	}
+// }
+
+type MyFLoat float64
+
+func (f MyFLoat) Abs() float64 {
+	if f < 0 {
+		return float64(-f)
 	}
+
+	return float64(f)
+}
+
+type Vertex struct {
+	X, Y float64
+}
+
+func (v Vertex) Abs() float64 {
+	return math.Sqrt(v.X * v.X + v.Y * v.Y)
+}
+
+func Abs(v Vertex) float64 {
+	return math.Sqrt(v.X * v.X + v.Y * v.Y)
 }
 
 func main() {
-	patientCount := 0
-	patientCountPtr := &patientCount
-
-	addPatient, removePatient := modifyPatientCount(true, patientCountPtr), modifyPatientCount(false, patientCountPtr)
+	topLeftCorner := Vertex{3, 4}
+	f := MyFLoat(-math.Sqrt2)
 	
-	for count := 0; count < 100; count++ {
-		fmt.Println(addPatient(2))
-		fmt.Println(removePatient(1))
-	}
+	fmt.Println(topLeftCorner.Abs())
+	fmt.Println(Abs(topLeftCorner))
+
+	fmt.Println(f.Abs())
+	// patientCount := 0
+	// patientCountPtr := &patientCount
+
+	// addPatient, removePatient := modifyPatientCount(true, patientCountPtr), modifyPatientCount(false, patientCountPtr)
+	
+	// for count := 0; count < 100; count++ {
+	// 	fmt.Println(addPatient(2))
+	// 	fmt.Println(removePatient(1))
+	// }
 	
 	// fmt.Println(compute(math.Pow))
 	// fmt.Println(compute(square))
