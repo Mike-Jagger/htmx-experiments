@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"math/cmplx"
 )
 
@@ -281,22 +282,68 @@ var (
 // 	return fmt.Sprintf("%v (%v years)", p.Name, p.Age)
 // }
 
-type IPAddr [4]byte
+// type IPAddr [4]byte
 
-func (ipAddr IPAddr) String() string {
-	return fmt.Sprintf("%d.%d.%d.%d", ipAddr[0], ipAddr[1], ipAddr[2], ipAddr[3])
+// func (ipAddr IPAddr) String() string {
+// 	return fmt.Sprintf("%d.%d.%d.%d", ipAddr[0], ipAddr[1], ipAddr[2], ipAddr[3])
+// }
+
+// type MyError struct {
+// 	Reason string
+// 	Service string
+// 	Time time.Time
+// }
+
+// func (error *MyError) Error() string {
+// 	return fmt.Sprintf("Service: %v \nTIme: %v \nReason: %v", error.Service, error.Time,error.Reason)
+// }
+
+// func run() (int, error) {
+// 	return 0, &MyError{
+// 		"Couldn't find shop in database",
+// 		"Verfication",
+// 		time.Now(),
+// 	}
+// }
+
+
+type ErrNegativeSqrt float64
+
+func (e ErrNegativeSqrt) Error() string {
+	return fmt.Sprintf("cannot Sqrt negative number: %v", float64(e))
 }
 
+func sqrt(x float64) (float64, error) {
+	if x < 0 {
+		return 0, ErrNegativeSqrt(x)	
+	}
+	return math.Sqrt(x), nil 
+}
 
 func main() {
-	hosts := map[string]IPAddr {
-		"loopback": {127, 0, 0, 1},
-		"googleDNS": {8, 8, 8, 8},
-	}
 
-	for name, ip := range hosts {
-		fmt.Printf("%v: %v\n", name, ip)
-	}
+	val, err := sqrt(64)
+
+	fmt.Println(val, err)
+
+	val, err = sqrt(-2)
+	fmt.Println(val, err)
+
+	// value, err := run()
+
+	// if err != nil && value == 0 {
+	// 	fmt.Printf("Error while running: \n%v \nValue: \t%v \n", err, value)
+	// }
+
+
+	// hosts := map[string]IPAddr {
+	// 	"loopback": {127, 0, 0, 1},
+	// 	"googleDNS": {8, 8, 8, 8},
+	// }
+
+	// for name, ip := range hosts {
+	// 	fmt.Printf("%v: %v\n", name, ip)
+	// }
 
 	// a := Person{"John Doe", 8}
 	// var description string = a.String()
