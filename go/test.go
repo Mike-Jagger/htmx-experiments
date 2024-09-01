@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"math"
 	"math/cmplx"
+	"strings"
 )
 
 // func add(x, y int) int {
@@ -307,27 +309,67 @@ var (
 // }
 
 
-type ErrNegativeSqrt float64
+// type ErrNegativeSqrt float64
 
-func (e ErrNegativeSqrt) Error() string {
-	return fmt.Sprintf("cannot Sqrt negative number: %v", float64(e))
+// func (e ErrNegativeSqrt) Error() string {
+// 	return fmt.Sprintf("cannot Sqrt negative number: %v", float64(e))
+// }
+
+// func sqrt(x float64) (float64, error) {
+// 	if x < 0 {
+// 		return 0, ErrNegativeSqrt(x)	
+// 	}
+// 	return math.Sqrt(x), nil 
+// }
+
+type err string
+
+func (reason err) Error() string {
+	return fmt.Sprintf("%v", string(reason))
 }
 
-func sqrt(x float64) (float64, error) {
-	if x < 0 {
-		return 0, ErrNegativeSqrt(x)	
+func copyToBuffer(src *strings.Reader, dest *[]byte, chunkSize int) ([]byte, error) {
+	if cap(*dest) < src.Len() {
+		return make([]byte, 0), err("Destination buffer too small")
 	}
-	return math.Sqrt(x), nil 
+
+	b := make([]byte, chunkSize)
+	
+	j := 0
+	for i := 0; i <= int(math.Round(float64(src.Len()/chunkSize))); i++ {
+		n, err := src.Read(b)
+
+		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+		fmt.Printf("b[:n] = %q\n", b)
+		
+		for k := 0; k < chunkSize; k++ {
+			(*dest)[j] = b[k]
+			j++
+		}
+
+		
+		if err == io.EOF {
+			break
+		}
+	}
+
+	return *dest, nil
 }
 
 func main() {
+	b := make([]byte, 16)
+	r := strings.NewReader("Hello, Reader!!!")
 
-	val, err := sqrt(64)
+	val, err := copyToBuffer(r, &b, 8)
 
-	fmt.Println(val, err)
+	fmt.Printf("String: %q Value: %v", val[:], err)
 
-	val, err = sqrt(-2)
-	fmt.Println(val, err)
+	// val, err := sqrt(64)
+
+	// fmt.Println(val, err)
+
+	// val, err = sqrt(-2)
+	// fmt.Println(val, err)
 
 	// value, err := run()
 
