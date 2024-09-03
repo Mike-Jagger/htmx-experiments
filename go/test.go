@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"math/cmplx"
+
+	"golang.org/x/tour/tree"
 )
 
 // func add(x, y int) int {
@@ -353,103 +355,149 @@ var (
 // 	return *dest, nil
 // }
 
-func Index[T comparable](s []T, x T) int {
-	for i, v := range s {
-		if v == x {
-			return i
-		}
-	}
+// func Index[T comparable](s []T, x T) int {
+// 	for i, v := range s {
+// 		if v == x {
+// 			return i
+// 		}
+// 	}
 
-	return -1
-}
+// 	return -1
+// }
 
-type integerQueue[T any] interface {
-	pop() Node[T]
-	shift() Node[T]
-	peek() Node[T]
-}
+// type integerQueue[T any] interface {
+// 	pop() Node[T]
+// 	shift() Node[T]
+// 	peek() Node[T]
+// }
 
-type List[T any] struct {
-	head *Node[T]
-	length int
-}
+// type List[T any] struct {
+// 	head *Node[T]
+// 	length int
+// }
 
-type Node[T any] struct {
-	next *Node[T]
-	val T
-}
+// type Node[T any] struct {
+// 	next *Node[T]
+// 	val T
+// }
 
-func (list *List[T]) peek() Node[T] {
-	if list.head != nil {
-		return *list.head
-	}
-	panic("There is no value in list")
-}
+// func (list *List[T]) peek() Node[T] {
+// 	if list.head != nil {
+// 		return *list.head
+// 	}
+// 	panic("There is no value in list")
+// }
 
-func (list *List[T]) shift() Node[T] {
-	var node Node[T]
-	var head *Node[T] = list.head
+// func (list *List[T]) shift() Node[T] {
+// 	var node Node[T]
+// 	var head *Node[T] = list.head
 	
-	node = *head
-	list.head = (*head).next
+// 	node = *head
+// 	list.head = (*head).next
 
-	return node
+// 	return node
+// }
+
+// func (list *List[T]) pop() Node[T] {
+// 	var head *Node[T] = list.head
+// 	var node Node[T]
+
+// 	var curr *Node[T] = head
+
+// 	if curr.next == nil {
+// 		list.head = nil
+// 		return *curr
+// 	}
+
+// 	for curr != nil {
+// 		if curr.next.next == nil {
+// 			node = *((*curr).next)
+// 			curr.next = nil
+// 		}
+
+// 		curr = curr.next
+// 	}
+
+// 	return node
+// }
+
+// func say(s int) {
+// 	for i :=0; i < 5; i++ {
+// 		time.Sleep(100 * time.Millisecond)
+// 		fmt.Println(s)
+// 	}
+// }
+
+func Walk(tree *tree.Tree, ch chan int) {
+	if tree == nil {
+		return
+	}
+	
+	Walk(tree.Left, ch)
+	ch <- tree.Value
+	Walk(tree.Right, ch)
 }
 
-func (list *List[T]) pop() Node[T] {
-	var head *Node[T] = list.head
-	var node Node[T]
+func Same(t1, t2 *tree.Tree) bool {
+	ch1 := make(chan int)
+	ch2 := make(chan int)
 
-	var curr *Node[T] = head
+	go Walk(t1, ch1)
+	go Walk(t2, ch2)
 
-	if curr.next == nil {
-		list.head = nil
-		return *curr
+	for i := 0; i < 10; i++ {
+		// fmt.Println(<- ch1)
+		// fmt.Println(<- ch2)
+		n1 := <- ch1
+		n2 := <- ch2
+
+		if n1 != n2 {
+			return false
+		} 
 	}
 
-	for curr != nil {
-		if curr.next.next == nil {
-			node = *((*curr).next)
-			curr.next = nil
-		}
-
-		curr = curr.next
-	}
-
-	return node
+	return true
 }
 
 func main() {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Error:", r)
-		}
-	}()
-	var node1 Node[int] = Node[int]{nil, 1} 
-	var node2 Node[int] = Node[int]{nil, 2}
+	fmt.Println(Same(tree.New(1), tree.New(2)))
+
+	// i := 5
+	// i_ptr := &i
+	// go say(*i_ptr)
+	// i++
+	// say(*i_ptr)
+
+	// defer func() {
+	// 	if r := recover(); r != nil {
+	// 		fmt.Println("Error:", r)
+	// 	}
+	// }()
+	// var node1 Node[int] = Node[int]{nil, 1} 
+	// var node2 Node[int] = Node[int]{nil, 2}
 
 
-	var listInterfaceToBeUsed List[int] = List[int]{&node1, 1}
+	// var listInterfaceToBeUsed List[int] = List[int]{&node1, 1}
 
-	var list integerQueue[int] = &listInterfaceToBeUsed
+	// var list integerQueue[int] = &listInterfaceToBeUsed
 	
-	node1.next = &node2
+	// node1.next = &node2
 
-	fmt.Println(list.peek())
+	// fmt.Println(list.peek())
 
-	fmt.Println(list.shift())
-	fmt.Println(list.peek())
+	// fmt.Println(list.shift())
+	// fmt.Println(list.peek())
 
-	fmt.Println(list.pop())
-	fmt.Println(list.peek())
+	// fmt.Println(list.pop())
+	// fmt.Println(list.peek())
 	
-	var intArr []int = []int{10, 20, 15, -10}
-	fmt.Println(Index(intArr, 2))
-	fmt.Println(Index(intArr, 20))
+	// var intArr []int = []int{10, 20, 15, -10}
+	// fmt.Println(Index(intArr, 2))
+	// fmt.Println(Index(intArr, 20))
 
-	var strArr []string = []string{"foo", "bar", "baz"}
-	fmt.Println(Index(strArr, "hello"))
-	fmt.Println(Index(strArr, "baz"))
+	// var strArr []string = []string{"foo", "bar", "baz"}
+	// fmt.Println(Index(strArr, "hello"))
+	// fmt.Println(Index(strArr, "baz"))
 	
 	// b := make([]byte, 16)
 	// r := strings.NewReader("Hello, Reader!!!")
