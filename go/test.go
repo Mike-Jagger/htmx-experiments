@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"math/cmplx"
-	"sync"
 )
 
 // func add(x, y int) int {
@@ -459,119 +457,121 @@ var (
 // }
 
 
-type Fetcher interface {
-	// Fetch returns the body of URL and
-	// a slice of URLs found on that page.
-	Fetch(url string) (body string, urls []string, err error)
-}
+// type Fetcher interface {
+// 	// Fetch returns the body of URL and
+// 	// a slice of URLs found on that page.
+// 	Fetch(url string) (body string, urls []string, err error)
+// }
 
 
 
-// Crawl uses fetcher to recursively crawl
-// pages starting with url, to a maximum of depth.
-func Crawl(url string, depth int, fetcher Fetcher, cache *URLCache) {
-	// TODO: Fetch URLs in parallel.
-	// TODO: Don't fetch the same URL twice.
-	// This implementation doesn't do either:
+// // Crawl uses fetcher to recursively crawl
+// // pages starting with url, to a maximum of depth.
+// func Crawl(url string, depth int, fetcher Fetcher, cache *URLCache) {
+// 	// TODO: Fetch URLs in parallel.
+// 	// TODO: Don't fetch the same URL twice.
+// 	// This implementation doesn't do either:
 
 
-	if depth <= 0 {
-		return
-	}
+// 	if depth <= 0 {
+// 		return
+// 	}
 
-	if !cache.inCache(url) {
-		cache.addURL(url)
-		body, urls, err := fetcher.Fetch(url)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-		fmt.Printf("found: %s %q\n", url, body)
-		for _, u := range urls {
-			Crawl(u, depth-1, fetcher, cache)
-		}
-	} else {
-		// fmt.Printf("\nAlready in cache: %v \n\n", url)
-	}
-}
+// 	if !cache.inCache(url) {
+// 		cache.addURL(url)
+// 		body, urls, err := fetcher.Fetch(url)
+// 		if err != nil {
+// 			fmt.Println(err)
+// 			return
+// 		}
+// 		fmt.Printf("found: %s %q\n", url, body)
+// 		for _, u := range urls {
+// 			Crawl(u, depth-1, fetcher, cache)
+// 		}
+// 	} else {
+// 		// fmt.Printf("\nAlready in cache: %v \n\n", url)
+// 	}
+// }
 
-// fakeFetcher is Fetcher that returns canned results.
-type fakeFetcher map[string]*fakeResult
+// // fakeFetcher is Fetcher that returns canned results.
+// type fakeFetcher map[string]*fakeResult
 
-type fakeResult struct {
-	body string
-	urls []string
-}
+// type fakeResult struct {
+// 	body string
+// 	urls []string
+// }
 
-func (f fakeFetcher) Fetch(url string) (string, []string, error) {
-	if res, ok := f[url]; ok {
-		return res.body, res.urls, nil
-	}
-	return "", nil, fmt.Errorf("not found: %s", url)
-}
+// func (f fakeFetcher) Fetch(url string) (string, []string, error) {
+// 	if res, ok := f[url]; ok {
+// 		return res.body, res.urls, nil
+// 	}
+// 	return "", nil, fmt.Errorf("not found: %s", url)
+// }
 
-// fetcher is a populated fakeFetcher.
-var fetcher = fakeFetcher{
-	"https://golang.org/": &fakeResult{
-		"The Go Programming Language",
-		[]string{
-			"https://golang.org/pkg/",
-			"https://golang.org/cmd/",
-		},
-	},
-	"https://golang.org/pkg/": &fakeResult{
-		"Packages",
-		[]string{
-			"https://golang.org/",
-			"https://golang.org/cmd/",
-			"https://golang.org/pkg/fmt/",
-			"https://golang.org/pkg/os/",
-		},
-	},
-	"https://golang.org/pkg/fmt/": &fakeResult{
-		"Package fmt",
-		[]string{
-			"https://golang.org/",
-			"https://golang.org/pkg/",
-		},
-	},
-	"https://golang.org/pkg/os/": &fakeResult{
-		"Package os",
-		[]string{
-			"https://golang.org/",
-			"https://golang.org/pkg/",
-		},
-	},
-}
+// // fetcher is a populated fakeFetcher.
+// var fetcher = fakeFetcher{
+// 	"https://golang.org/": &fakeResult{
+// 		"The Go Programming Language",
+// 		[]string{
+// 			"https://golang.org/pkg/",
+// 			"https://golang.org/cmd/",
+// 		},
+// 	},
+// 	"https://golang.org/pkg/": &fakeResult{
+// 		"Packages",
+// 		[]string{
+// 			"https://golang.org/",
+// 			"https://golang.org/cmd/",
+// 			"https://golang.org/pkg/fmt/",
+// 			"https://golang.org/pkg/os/",
+// 		},
+// 	},
+// 	"https://golang.org/pkg/fmt/": &fakeResult{
+// 		"Package fmt",
+// 		[]string{
+// 			"https://golang.org/",
+// 			"https://golang.org/pkg/",
+// 		},
+// 	},
+// 	"https://golang.org/pkg/os/": &fakeResult{
+// 		"Package os",
+// 		[]string{
+// 			"https://golang.org/",
+// 			"https://golang.org/pkg/",
+// 		},
+// 	},
+// }
 
-type URLCache struct {
-	mu sync.Mutex
-	store map[string]bool
-}
+// type URLCache struct {
+// 	mu sync.Mutex
+// 	store map[string]bool
+// }
 
-func (cache *URLCache) inCache(key string) bool {
-	cache.mu.Lock()
-	defer cache.mu.Unlock()
+// func (cache *URLCache) inCache(key string) bool {
+// 	cache.mu.Lock()
+// 	defer cache.mu.Unlock()
 
-	_, ok := (*cache).store[key]
+// 	_, ok := (*cache).store[key]
 
-	return ok
-}
+// 	return ok
+// }
 
-func (cache *URLCache) addURL(key string) {
-	cache.mu.Lock()
+// func (cache *URLCache) addURL(key string) {
+// 	cache.mu.Lock()
 
-	((*cache).store)[key] = true
+// 	((*cache).store)[key] = true
 	
-	cache.mu.Unlock()
-}
+// 	cache.mu.Unlock()
+// }
+
+
 
 func main() {
-	var customCache URLCache = URLCache{store: make(map[string]bool)}
+	// var customCache URLCache = URLCache{store: make(map[string]bool)}
 
-	Crawl("https://golang.org/", 4, fetcher, &customCache)
+	// Crawl("https://golang.org/", 4, fetcher, &customCache)
 
-	fmt.Println(customCache)
+	// fmt.Println(customCache)
 
 	// fmt.Println(Same(tree.New(1), tree.New(2)))
 
