@@ -2,10 +2,7 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"math"
 	"math/cmplx"
-	"strings"
 )
 
 // func add(x, y int) int {
@@ -322,47 +319,144 @@ var (
 // 	return math.Sqrt(x), nil 
 // }
 
-type err string
+// type err string
 
-func (reason err) Error() string {
-	return fmt.Sprintf("%v", string(reason))
+// func (reason err) Error() string {
+// 	return fmt.Sprintf("%v", string(reason))
+// }
+
+// func copyToBuffer(src *strings.Reader, dest *[]byte, chunkSize int) ([]byte, error) {
+// 	if cap(*dest) < src.Len() {
+// 		return make([]byte, 0), err("Destination buffer too small")
+// 	}
+
+// 	b := make([]byte, chunkSize)
+	
+// 	j := 0
+// 	for i := 0; i <= int(math.Round(float64(src.Len()/chunkSize))); i++ {
+// 		n, err := src.Read(b)
+
+// 		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
+// 		fmt.Printf("b[:n] = %q\n", b)
+		
+// 		for k := 0; k < chunkSize; k++ {
+// 			(*dest)[j] = b[k]
+// 			j++
+// 		}
+
+		
+// 		if err == io.EOF {
+// 			break
+// 		}
+// 	}
+
+// 	return *dest, nil
+// }
+
+func Index[T comparable](s []T, x T) int {
+	for i, v := range s {
+		if v == x {
+			return i
+		}
+	}
+
+	return -1
 }
 
-func copyToBuffer(src *strings.Reader, dest *[]byte, chunkSize int) ([]byte, error) {
-	if cap(*dest) < src.Len() {
-		return make([]byte, 0), err("Destination buffer too small")
-	}
+type integerQueue[T any] interface {
+	pop() Node[T]
+	shift() Node[T]
+	peek() Node[T]
+}
 
-	b := make([]byte, chunkSize)
+type List[T any] struct {
+	head *Node[T]
+	length int
+}
+
+type Node[T any] struct {
+	next *Node[T]
+	val T
+}
+
+func (list *List[T]) peek() Node[T] {
+	if list.head != nil {
+		return *list.head
+	}
+	panic("There is no value in list")
+}
+
+func (list *List[T]) shift() Node[T] {
+	var node Node[T]
+	var head *Node[T] = list.head
 	
-	j := 0
-	for i := 0; i <= int(math.Round(float64(src.Len()/chunkSize))); i++ {
-		n, err := src.Read(b)
+	node = *head
+	list.head = (*head).next
 
-		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
-		fmt.Printf("b[:n] = %q\n", b)
-		
-		for k := 0; k < chunkSize; k++ {
-			(*dest)[j] = b[k]
-			j++
-		}
+	return node
+}
 
-		
-		if err == io.EOF {
-			break
-		}
+func (list *List[T]) pop() Node[T] {
+	var head *Node[T] = list.head
+	var node Node[T]
+
+	var curr *Node[T] = head
+
+	if curr.next == nil {
+		list.head = nil
+		return *curr
 	}
 
-	return *dest, nil
+	for curr != nil {
+		if curr.next.next == nil {
+			node = *((*curr).next)
+			curr.next = nil
+		}
+
+		curr = curr.next
+	}
+
+	return node
 }
 
 func main() {
-	b := make([]byte, 16)
-	r := strings.NewReader("Hello, Reader!!!")
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Error:", r)
+		}
+	}()
+	var node1 Node[int] = Node[int]{nil, 1} 
+	var node2 Node[int] = Node[int]{nil, 2}
 
-	val, err := copyToBuffer(r, &b, 8)
 
-	fmt.Printf("String: %q Value: %v", val[:], err)
+	var listInterfaceToBeUsed List[int] = List[int]{&node1, 1}
+
+	var list integerQueue[int] = &listInterfaceToBeUsed
+	
+	node1.next = &node2
+
+	fmt.Println(list.peek())
+
+	fmt.Println(list.shift())
+	fmt.Println(list.peek())
+
+	fmt.Println(list.pop())
+	fmt.Println(list.peek())
+	
+	var intArr []int = []int{10, 20, 15, -10}
+	fmt.Println(Index(intArr, 2))
+	fmt.Println(Index(intArr, 20))
+
+	var strArr []string = []string{"foo", "bar", "baz"}
+	fmt.Println(Index(strArr, "hello"))
+	fmt.Println(Index(strArr, "baz"))
+	
+	// b := make([]byte, 16)
+	// r := strings.NewReader("Hello, Reader!!!")
+
+	// val, err := copyToBuffer(r, &b, 8)
+
+	// fmt.Printf("String: %q Value: %v", val[:], err)
 
 	// val, err := sqrt(64)
 
