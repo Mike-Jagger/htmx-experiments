@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -21,4 +22,19 @@ func loadPage(title string) (*Page, error) {
 		return nil, err
 	}
 	return &Page{Title: title, Body: body}, nil
+}
+
+func main() {
+	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
+	err := p1.save()
+	if err != nil {
+		fmt.Println("Error while creating file: ", err)
+		return
+	}
+	page, err := loadPage("TestPage")
+	if err != nil {
+		fmt.Println("Error while reading file: ", err)
+		return
+	}
+	fmt.Println(page)
 }
