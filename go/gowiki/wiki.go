@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 )
 
@@ -24,17 +26,25 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+}
+
 func main() {
-	p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
-	err := p1.save()
-	if err != nil {
-		fmt.Println("Error while creating file: ", err)
-		return
-	}
-	page, err := loadPage("TestPage")
-	if err != nil {
-		fmt.Println("Error while reading file: ", err)
-		return
-	}
-	fmt.Println(page)
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	// p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
+	// err := p1.save()
+	// if err != nil {
+	// 	fmt.Println("Error while creating file: ", err)
+	// 	return
+	// }
+	// page, err := loadPage("TestPage")
+	// if err != nil {
+	// 	fmt.Println("Error while reading file: ", err)
+	// 	return
+	// }
+	// fmt.Println(page)
+
 }
