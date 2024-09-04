@@ -1,9 +1,5 @@
 package main
 
-import (
-	"math/cmplx"
-)
-
 // func add(x, y int) int {
 // 	return x + y
 // }
@@ -20,35 +16,34 @@ import (
 
 // var i, j int = 1, 2
 
+// var (
+// 	Bool bool = true
 
-var (
-	Bool bool = true
-	
-	String string = "string variable"
-	
-	Int int = 69
-	Int8 int8
-	Int16 int16
-	Int32 int32
-	Int64 int64
-	
-	Uint uint
-	Uint8 uint8
-	Uint16 uint16
-	Uint32 uint32
-	Uint64 uint64 = 1<<64 - 1
-	Uintptr uintptr
-	
-	Byte byte
-	
-	Rune rune
-	
-	FLoat32 float32
-	Float64 float64
-	
-	Complex64 complex64
-	Complex128 complex128 = cmplx.Sqrt(-5 + 12i)
-)
+// 	String string = "string variable"
+
+// 	Int int = 69
+// 	Int8 int8
+// 	Int16 int16
+// 	Int32 int32
+// 	Int64 int64
+
+// 	Uint uint
+// 	Uint8 uint8
+// 	Uint16 uint16
+// 	Uint32 uint32
+// 	Uint64 uint64 = 1<<64 - 1
+// 	Uintptr uintptr
+
+// 	Byte byte
+
+// 	Rune rune
+
+// 	FLoat32 float32
+// 	Float64 float64
+
+// 	Complex64 complex64
+// 	Complex128 complex128 = cmplx.Sqrt(-5 + 12i)
+// )
 
 // func sqrt(x float64) string {
 // 	if x < 0 {
@@ -68,21 +63,21 @@ var (
 // }
 
 // func PrintTypeNValue(_var interface{}) {
-	// 	fmt.Printf("Type: %T Value: %v \n", _var, _var)
-	// }
-	
-	// func Sqrt(x float64) float64 {
-		// 	var z float64 = float64(1)
-		
-		// 	var prev float64
-		
-		// 	for ; z > math.Sqrt(x) || prev != z; {
-			// 		fmt.Printf("z:%v x:%v \n", z, math.Sqrt(x))
+// 	fmt.Printf("Type: %T Value: %v \n", _var, _var)
+// }
+
+// func Sqrt(x float64) float64 {
+// 	var z float64 = float64(1)
+
+// 	var prev float64
+
+// 	for ; z > math.Sqrt(x) || prev != z; {
+// 		fmt.Printf("z:%v x:%v \n", z, math.Sqrt(x))
 // 		z -= (z*z - x) / (2 * z)
 
 // 		prev = z
 // 	}
-	
+
 // 	return z
 // }
 
@@ -153,7 +148,7 @@ var (
 // 	}
 
 // 	wordCountMap := make(map[string]int)
-	
+
 // 	for _, v := range stringSlice {
 // 		if wordCountMap[v] != 0 {
 // 			wordCountMap[v] += 1
@@ -165,7 +160,7 @@ var (
 // 	return wordCountMap
 // }
 
-// func compute(fn func(float64, float64) float64) float64 {	
+// func compute(fn func(float64, float64) float64) float64 {
 // 	return fn(3, 2)
 // }
 
@@ -229,7 +224,7 @@ var (
 
 // type T struct {
 // 	S string
-// } 
+// }
 
 // func (t *T) M() {
 // 	if t == nil {
@@ -304,7 +299,6 @@ var (
 // 	}
 // }
 
-
 // type ErrNegativeSqrt float64
 
 // func (e ErrNegativeSqrt) Error() string {
@@ -313,9 +307,9 @@ var (
 
 // func sqrt(x float64) (float64, error) {
 // 	if x < 0 {
-// 		return 0, ErrNegativeSqrt(x)	
+// 		return 0, ErrNegativeSqrt(x)
 // 	}
-// 	return math.Sqrt(x), nil 
+// 	return math.Sqrt(x), nil
 // }
 
 // type err string
@@ -330,20 +324,19 @@ var (
 // 	}
 
 // 	b := make([]byte, chunkSize)
-	
+
 // 	j := 0
 // 	for i := 0; i <= int(math.Round(float64(src.Len()/chunkSize))); i++ {
 // 		n, err := src.Read(b)
 
 // 		fmt.Printf("n = %v err = %v b = %v\n", n, err, b)
 // 		fmt.Printf("b[:n] = %q\n", b)
-		
+
 // 		for k := 0; k < chunkSize; k++ {
 // 			(*dest)[j] = b[k]
 // 			j++
 // 		}
 
-		
 // 		if err == io.EOF {
 // 			break
 // 		}
@@ -388,7 +381,7 @@ var (
 // func (list *List[T]) shift() Node[T] {
 // 	var node Node[T]
 // 	var head *Node[T] = list.head
-	
+
 // 	node = *head
 // 	list.head = (*head).next
 
@@ -429,7 +422,7 @@ var (
 // 	if tree == nil {
 // 		return
 // 	}
-	
+
 // 	Walk(tree.Left, ch)
 // 	ch <- tree.Value
 // 	Walk(tree.Right, ch)
@@ -450,12 +443,11 @@ var (
 
 // 		if n1 != n2 {
 // 			return false
-// 		} 
+// 		}
 // 	}
 
 // 	return true
 // }
-
 
 // type Fetcher interface {
 // 	// Fetch returns the body of URL and
@@ -463,15 +455,12 @@ var (
 // 	Fetch(url string) (body string, urls []string, err error)
 // }
 
-
-
 // // Crawl uses fetcher to recursively crawl
 // // pages starting with url, to a maximum of depth.
 // func Crawl(url string, depth int, fetcher Fetcher, cache *URLCache) {
 // 	// TODO: Fetch URLs in parallel.
 // 	// TODO: Don't fetch the same URL twice.
 // 	// This implementation doesn't do either:
-
 
 // 	if depth <= 0 {
 // 		return
@@ -560,7 +549,7 @@ var (
 // 	cache.mu.Lock()
 
 // 	((*cache).store)[key] = true
-	
+
 // 	cache.mu.Unlock()
 // }
 
@@ -856,4 +845,4 @@ func main() {
 	// fmt.Println(split(100))
 
 	// fmt.Println(i, j, c, python, java)
-}
+}	
