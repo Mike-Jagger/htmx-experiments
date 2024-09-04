@@ -30,8 +30,21 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
 
+func viewHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/view/"):]
+	p, err := loadPage(title)
+	if err != nil {
+		fmt.Fprintf(w, "<h1>No wiki with title %s was found</h1>", title)
+		return
+	}
+	fmt.Fprintf(w, "<h1>%s</h1><p>%s</p>", p.Title, p.Body)
+}
+
 func main() {
 	http.HandleFunc("/", handler)
+	http.HandleFunc("/view/", viewHandler)
+
+	fmt.Println("Server starting on port :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
 	// p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
