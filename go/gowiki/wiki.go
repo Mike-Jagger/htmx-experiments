@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -37,24 +38,30 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "<h1>No wiki with title %s was found</h1>", title)
 		return
 	}
-	fmt.Fprintf(w, "<h1>%s</h1><p>%s</p>", p.Title, p.Body)
+
+	t, err := template.ParseFiles("view.html")
+	if err != nil {
+		fmt.Println("Error parsing view.html file:", err)
+		return
+	}
+	t.Execute(w, p)
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/save/"):]
+	title := r.URL.Path[len("/edit/"):]
 	p, err := loadPage(title)
 	if err != nil {
 		p = &Page{Title: title}
 	}
 
-	fmt.Fprintf(w, 
-		"<h1>Editing: %s</h1>" +
-		"<form action='/save/%s' method='POST'>" +
-		"<textarea name='body'>%s</textarea><br>" +
-		"<input type='submit' value='Save'>" +
-		"</form>",
-		p.Title, p.Title, p.Body,
-	)
+	t, err := template.ParseFiles("edit.html")
+	if err != nil {
+		fmt.Println("Error parsing edit.html file:", err)
+		return
+	}
+	t.Execute(w, p)
+
+	// fmt.Fprintf(w, "Hello")
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
