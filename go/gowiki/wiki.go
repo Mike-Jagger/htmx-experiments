@@ -7,10 +7,11 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"strings"
 )
 
 var (
-	templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+	templates = template.Must(template.ParseFiles("templ/edit.html", "templ/view.html"))
 	validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 )
 
@@ -33,12 +34,35 @@ func (p *Page) save() error {
 // 	return m[2], nil
 // }
 
+func substitute(b []byte) []byte {
+	fmt.Println(b)
+	pageName := string(b)
+	return []byte("<a href='/view/"+pageName+"'>"+pageName+"</a>")
+}
+
 func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
+	filename := "data/" + title + ".txt"
 	body, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
+
+	files, err := os.ReadDir("data")
+	if err != nil {
+        return nil, err
+    }
+
+    var fileNames []string
+    for _, file := range files {
+        if file.IsDir() {
+            continue
+        }
+        fileNames = append(fileNames, file.Name())
+    }
+	
+	pattern := fmt.Sprintf("^(%s)$", strings.Join(fileNames, "|"))
+	body = regexp.MustCompile(pattern).ReplaceAllFunc(body, substitute)
+	
 	return &Page{Title: title, Body: body}, nil
 }
 
