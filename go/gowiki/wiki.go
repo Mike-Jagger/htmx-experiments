@@ -27,6 +27,15 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
+func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
+	t, err := template.ParseFiles(tmpl + ".html")
+	if err != nil {
+		fmt.Println("Error parsing", tmpl, ".html file:", err)
+		return
+	}
+	t.Execute(w, p)
+}
+
 func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
 }
@@ -39,12 +48,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t, err := template.ParseFiles("view.html")
-	if err != nil {
-		fmt.Println("Error parsing view.html file:", err)
-		return
-	}
-	t.Execute(w, p)
+	renderTemplate(w, "view", p)
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
@@ -54,14 +58,7 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 		p = &Page{Title: title}
 	}
 
-	t, err := template.ParseFiles("edit.html")
-	if err != nil {
-		fmt.Println("Error parsing edit.html file:", err)
-		return
-	}
-	t.Execute(w, p)
-
-	// fmt.Fprintf(w, "Hello")
+	renderTemplate(w, "edit", p)
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
