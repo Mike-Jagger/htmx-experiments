@@ -44,7 +44,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
 	p, err := loadPage(title)
 	if err != nil {
-		fmt.Fprintf(w, "<h1>No wiki with title %s was found</h1>", title)
+		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
 		return
 	}
 
@@ -62,7 +62,17 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request) {
+	title := r.URL.Path[len("/save/"):]
+	body := r.FormValue("body")
+	p := &Page{Title: title, Body: []byte(body)}
 
+	err := p.save()
+
+	if err != nil {
+		fmt.Println("Error saving file:", title)
+	}
+
+	http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
 
 func main() {
