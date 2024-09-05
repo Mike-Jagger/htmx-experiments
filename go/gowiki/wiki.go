@@ -18,6 +18,7 @@ var (
 type Page struct {
 	Title string
 	Body []byte
+	Markup template.HTML
 }
 
 func (p *Page) save() error {
@@ -35,7 +36,6 @@ func (p *Page) save() error {
 // }
 
 func substitute(b []byte) []byte {
-	fmt.Println(b)
 	pageName := string(b)
 	return []byte("<a href='/view/"+pageName+"'>"+pageName+"</a>")
 }
@@ -57,16 +57,18 @@ func loadPage(title string) (*Page, error) {
         if file.IsDir() {
             continue
         }
-        fileNames = append(fileNames, file.Name())
+		fileName := strings.TrimSuffix(file.Name(), ".txt")
+        fileNames = append(fileNames, fileName)
     }
 	
-	pattern := fmt.Sprintf("^(%s)$", strings.Join(fileNames, "|"))
+	pattern := fmt.Sprintf("\\b(%s)\\b", strings.Join(fileNames, "|"))
 	body = regexp.MustCompile(pattern).ReplaceAllFunc(body, substitute)
 	
 	return &Page{Title: title, Body: body}, nil
 }
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
+	p.Markup = template.HTML(p.Body)
 	err := templates.ExecuteTemplate(w, tmpl+".html", p)
 	if err != nil {
 		fmt.Println("Error parsing", tmpl, ".html file:", err)
