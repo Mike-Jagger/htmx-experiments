@@ -31,6 +31,7 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 	t, err := template.ParseFiles(tmpl + ".html")
 	if err != nil {
 		fmt.Println("Error parsing", tmpl, ".html file:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	t.Execute(w, p)
@@ -44,6 +45,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/view/"):]
 	p, err := loadPage(title)
 	if err != nil {
+		fmt.Println("Can't find page:", title)
 		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
 		return
 	}
@@ -70,6 +72,8 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		fmt.Println("Error saving file:", title)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	http.Redirect(w, r, "/view/"+title, http.StatusFound)
