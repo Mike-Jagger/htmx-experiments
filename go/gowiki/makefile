@@ -1,3 +1,5 @@
+# all: build test - if I had tests ready 
+
 run: build
 	@./bin/gowiki.exe
 
