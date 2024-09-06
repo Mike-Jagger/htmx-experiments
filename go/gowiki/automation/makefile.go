@@ -1,7 +1,8 @@
-// Just rewritting my own makefile since freaking makefil doesn't work on windows
+// Just rewritting my own makefile executor since freaking makefile doesn't work on windows
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
@@ -20,9 +21,66 @@ func ExecuteCmd(message string, prompt string, cmdName string) {
 	}
 }
 
+func ParseMakeFile(filename string) (map[string][]string, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	targets := make(map[string][]string)
+	scanner := bufio.NewScanner(file)
+	var currentTarget string
+
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+
+		if strings.Contains(line, ":") {
+			parts := strings.Split(line, ":")
+			currentTarget = strings.TrimSpace(parts[0])
+			trailingTargets := strings.TrimSpace(parts[1]) 
+
+			if  trailingTargets != "" && len(trailingTargets) != 0 {
+				if !strings.HasPrefix(trailingTargets, "@"){ 
+					for _, target := range strings.Fields(trailingTargets) {
+						targets[target] = []string{}
+						targets[currentTarget] = append(targets[currentTarget], target)
+
+					}
+				} else {
+					targets[currentTarget] = append(targets[currentTarget], trailingTargets)
+				}
+
+			}
+
+			if _, exists := targets[currentTarget]; !exists {
+				targets[currentTarget] = []string{}
+			}
+
+
+		} else if currentTarget != "" {
+			targets[currentTarget] = append(targets[currentTarget], strings.TrimSpace(line))
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
+	return targets, nil
+
+}	
+
 func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Running default commands: build run")
+
+		fmt.Println(ParseMakeFile("makefile"))
+
+		return
 	}
 
 	command := os.Args[1]
