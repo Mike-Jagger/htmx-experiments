@@ -7,6 +7,18 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type handler func(http.ResponseWriter, *http.Request)
+
+var CreateBook handler
+var ReadBook handler
+var UpdateBook handler
+var DeleteBook handler
+var TestBookHandler handler
+var SecureHandler handler
+var InsecureHandler handler
+var AllBooks handler
+var GetBook handler
+
 func main() {
 	r := mux.NewRouter()
 
@@ -25,9 +37,9 @@ func main() {
 	r.HandleFunc("/secure", SecureHandler).Schemes("https")
 	r.HandleFunc("/insecure", InsecureHandler).Schemes("http")
 
-	specialBookRouter := r.PathPrefix("/special-books").Subrouter().Schemes("https").Host("admin.my-website.com")
-	specialBookRouter.HandleFunc("/", AllBooks)
-	specialBookRouter.HandleFunc("/{title}", GetBook)
+	specialBookRouter := r.PathPrefix("/special-books").Subrouter()
+	specialBookRouter.HandleFunc("/", AllBooks).Schemes("https").Host("admin.my-website.com")
+	specialBookRouter.HandleFunc("/{title}", GetBook).Schemes("https").Host("admin.my-website.com")
 
 	http.ListenAndServe(":80", r)
 	fmt.Println("Listening on port :80")
