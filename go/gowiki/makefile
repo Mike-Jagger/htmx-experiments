@@ -1,12 +1,16 @@
-# all: build test - if I had tests ready 
+all: build test
 
-run: build
-	@./bin/gowiki.exe
+run: 
+	build
+	compile
+	exec
+
+exec: @cd ./bin && .\gowiki.exe
 
 compile:
 	@go install
 
 build:
-	@cd ./handlers && go build
 	@cd ./shared && go build
 	@cd ./util && go build
+	@cd ./handlers && go build

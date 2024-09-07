@@ -26,7 +26,7 @@ func main() {
 	http.HandleFunc("/edit/", MakeHandler(handlers.EditHandler))
 	http.HandleFunc("/save/", MakeHandler(handlers.SaveHandler))
 
-	fmt.Println("Server starting on port :8080")
+	fmt.Println("\nServer starting on port :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
 	// p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}

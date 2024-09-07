@@ -10,14 +10,17 @@ import (
 )
 
 func ExecuteCmd(message string, prompt string, cmdName string) {
-	fmt.Println(message)
+	prompt = "/c " + prompt
 	args := strings.Fields(prompt)
-	cmd := exec.Command(args[0], args[1:]...)
+	cmd := exec.Command("cmd.exe", args...)
+
+	fmt.Printf("\t%s:\t%s \n", message, cmd.Args[2:])
+
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Run()
 	if err != nil {
-		fmt.Printf("Error running %s: \n%s \n", cmdName, err.Error())
+		fmt.Printf("Error running %s: \n\t%s \n", cmdName, err.Error())
 	}
 }
 
@@ -74,24 +77,61 @@ func ParseMakeFile(filename string) (map[string][]string, error) {
 
 }	
 
-func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Running default commands: build run")
-
-		fmt.Println(ParseMakeFile("makefile"))
-
+func executeTarget(target string) {
+	targets, err := ParseMakeFile("makefile")
+	if err != nil {
+		fmt.Println("Error reading makefile:", err)
 		return
 	}
 
-	command := os.Args[1]
+	commands, exists := targets[target]
+	if !exists {
+		fmt.Printf("Target '%s' not found in makefile\n", target)
+		return
+	}
 
-	switch command {
-	case "--update-make":
+	fmt.Println("Target:", target)
+
+	for _, cmd := range commands {
+		cmd = strings.TrimPrefix(cmd, "@")
+		_, exists := targets[cmd]
+		if exists {
+			fmt.Println("|")
+			executeTarget(cmd)
+		} else {
+			ExecuteCmd("- Executing", cmd, target)
+		}
+	}
+}
+
+func main() {
+	if len(os.Args) < 2 {
+		executeTarget("all")
+		return
+	}
+
+	target := os.Args[1]
+
+	fmt.Println()
+
+	switch target {
+	case "--update":
+		fmt.Println("Updating...")
 		ExecuteCmd(
 			"Updating make command", 
 			"go build -o ./make.exe ./automation/makefile.go",
-			command,
+			target,
 		)
-	case "run":
+		ExecuteCmd(
+			"removing previous make", 
+			"del make.exe~",
+			target,
+		)
+		fmt.Println()
+	default:
+		fmt.Println("Running makefile...")
+
+		executeTarget(target)
+		fmt.Println()
 	}
 }
