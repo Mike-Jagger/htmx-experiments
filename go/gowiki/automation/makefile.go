@@ -119,14 +119,19 @@ func main() {
 		fmt.Println("Updating...")
 		ExecuteCmd(
 			"Updating make command", 
-			"go build -o ./make.exe ./automation/makefile.go",
+			"attrib -rw go build -o ./make.exe ./automation/makefile.go",
 			target,
 		)
+
+		fmt.Println()
+	case "--purge":
+		fmt.Println("Purging...")
 		ExecuteCmd(
-			"removing previous make", 
-			"del make.exe~",
+			"Updating make command", 
+			".\\make --purge",
 			target,
 		)
+
 		fmt.Println()
 	default:
 		fmt.Println("Running makefile...")
