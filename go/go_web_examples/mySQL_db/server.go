@@ -13,13 +13,39 @@ func main() {
 
 	if err != nil {
 		fmt.Println("Error configuring database connection:", err)
+		return
 	}
 
 	err = db.Ping()
 
 	if err != nil {
 		fmt.Println("Error connecting to database:", err)
+		return
 	}
+
+	dropTableQuery := "DROP TABLE IF EXISTS users"
+	createTabeleQuery := `
+		CREATE TABLE users(
+			id INT AUTO_INCREMENT,
+			username TEXT NOT NULL,
+			password TEXT NOT NULL,
+			created_at DATETIME,
+			PRIMARY KEY (id)
+		);
+	`
+
+	_, err = db.Exec(dropTableQuery)
+
+	if err != nil {
+		fmt.Println("Error creating USERS table:", err)
+	}
+
+	_, err = db.Exec(createTabeleQuery)
+
+	if err != nil {
+		fmt.Println("Error creating USERS table:", err)
+	}
+
 }
 
 /*
