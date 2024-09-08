@@ -75,7 +75,32 @@ func main() {
 		return
 	}
 
-	fmt.Printf("UserId: %v aftected %v", userId, rowsAffected)
+	fmt.Printf("UserId with id %v aftected %v\n", userId, rowsAffected)
+
+	type User struct {
+		id int
+		username string
+		password string
+		createdAt time.Time
+	}
+
+	var user User
+
+	query := `SELECT id, username, password, created_at FROM users WHERE id = ?`
+
+	err = db.QueryRow(query, userId).Scan(&user.id, &user.username, &user.password, &user.createdAt)
+
+	if err != nil {
+		fmt.Println("Error while getting user row:", err)
+	}
+
+	fmt.Println("\nHere is info about this user")
+	fmt.Println(
+		"\t-> id:", user.id,
+		"\n\t-> username:", user.username,
+		"\n\t-> password:", user.password,
+		"\n\t-> Account created at:", user.createdAt,	
+	)	
 }
 
 /*
