@@ -92,6 +92,7 @@ func main() {
 
 	if err != nil {
 		fmt.Println("Error while getting user row:", err)
+		return
 	}
 
 	fmt.Println("\nHere is info about this user")
@@ -101,6 +102,35 @@ func main() {
 		"\n\t-> password:", user.password,
 		"\n\t-> Account created at:", user.createdAt,	
 	)	
+
+	rows, err := db.Query(`SELECT id, username, password, created_at FROM users`)
+	if err != nil {
+		fmt.Println("Error while executing query:", err)
+	}
+	defer rows.Close()
+
+	var users []User
+	for rows.Next() {
+		var u User
+		err := rows.Scan(&u.id, &u.username, &u.password, &u.createdAt)
+		if err != nil {
+			fmt.Println("Error while trying to get user row:", err)
+			return
+		}
+		users = append(users, u)
+	}
+
+	err = rows.Err()
+	if err != nil {
+		fmt.Println("Error while reading rows:", err)
+		return
+	}
+
+	fmt.Println("\nHere are the users gotten from the table")
+	for _, user := range users {
+		fmt.Println("\t- ", user)
+	}
+
 }
 
 /*
