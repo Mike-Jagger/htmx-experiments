@@ -21,3 +21,12 @@ func main() {
 		fmt.Println("Error connecting to database:", err)
 	}
 }
+
+/*
+create docker instance: docker run --name htmx-experiments -h localhost -p 3307:3306 -v %CD%\data -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=htmx_experiments -d mysql:8.0-debian
+open container bash: docker exec -it htmx-experiments bash
+map ports and set protocol to tcp:  mysql -h localhost -P 3307 -u root -p
+enter password: password
+
+done :)
+*/
