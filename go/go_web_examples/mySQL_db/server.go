@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -10,14 +11,14 @@ import (
 
 func main() {
 	db, err := sql.Open("mysql", "root:password@(localhost:3307)/htmx_experiments?parseTime=true")
-
 	if err != nil {
 		fmt.Println("Error configuring database connection:", err)
 		return
 	}
+	
+	defer db.Close()
 
 	err = db.Ping()
-
 	if err != nil {
 		fmt.Println("Error connecting to database:", err)
 		return
@@ -46,6 +47,35 @@ func main() {
 		fmt.Println("Error creating USERS table:", err)
 	}
 
+	username := "johndoe"
+	password := "password"
+	createdAt := time.Now()
+
+	result, err := db.Exec(
+		`INSERT INTO users (username, password, created_at)
+		 VALUES (?, ?, ?)`, 
+		username, 
+		password, 
+		createdAt)
+
+	if err != nil {
+		fmt.Println("Error adding new user to table:", err)
+		return
+	}
+
+	userId, err := result.LastInsertId()
+	if err != nil {
+		fmt.Println("Error grabbing user id:", err)
+		return
+	} 
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		fmt.Println("Error grabbing user id:", err)
+		return
+	}
+
+	fmt.Printf("UserId: %v aftected %v", userId, rowsAffected)
 }
 
 /*
