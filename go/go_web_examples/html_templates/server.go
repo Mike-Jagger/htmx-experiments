@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 )
 
 type SINDetails struct {
 	Success bool
+	SIN string
 	Reason string
 }
 
@@ -19,7 +19,7 @@ func main() {
 			return
 		}
 
-		fmt.Fprintf(w, "Welcome to the %s page, Guest", r.URL.Path[1:])
+		tmpl.Execute(w, SINDetails{Success: true, SIN: r.FormValue("SIN"), Reason: r.FormValue("reason")})
 	})
 
 	http.ListenAndServe(":80", nil)
