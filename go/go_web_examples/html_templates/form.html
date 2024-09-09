@@ -2,7 +2,8 @@
 {{if .Success}}
     <h1>Here is your SIN: {{.SIN}}</h1>
     <h2>Here is why you submitted your SIN</h2>
-    <p>{{.Reason}}</p>
+    <p>{{.Reason}}</p><br>
+    <a href="/"><button>Fill Form</button></a>
 {{else}}
     <h1>Enter your SIN number</h1>
     <form method="POST">
