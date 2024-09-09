@@ -1,0 +1,14 @@
+<!-- form.html -->
+{{if .Success}}
+    <h1>Here is your SIN: {{.SIN}}</h1>
+    <h2>Here is why you submitted your SIN</h2>
+    <p>{{.Reason}}</p>
+{{else}}
+    <h1>Enter your SIN number</h1>
+    <form method="POST">
+        <label for="SIN">SIN</label><br>
+        <textarea id="SIN" name="SIN" placeholder="Enter your SIN here"></textarea><br>
+        <textarea id="reason" name="reason" placeholder="Enter the reason why you are providing us with your SIN" rows="20" cols="40"></textarea><br>
+        <input type="submit">
+    </form>
+{{end}}
