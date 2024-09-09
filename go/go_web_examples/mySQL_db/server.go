@@ -8,6 +8,13 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type User struct {
+	id int64
+	username string
+	password string
+	createdAt time.Time
+}
+
 
 func main() {
 	db, err := sql.Open("mysql", "root:password@(localhost:3307)/htmx_experiments?parseTime=true")
@@ -36,72 +43,66 @@ func main() {
 	`
 
 	_, err = db.Exec(dropTableQuery)
-
 	if err != nil {
 		fmt.Println("Error creating USERS table:", err)
 	}
 
 	_, err = db.Exec(createTabeleQuery)
-
 	if err != nil {
 		fmt.Println("Error creating USERS table:", err)
 	}
 
-	username := "johndoe"
+	var lastUserId int64
 	password := "password"
-	createdAt := time.Now()
+	usernames := []string{"johndoe", "marylyn", "mikejagger", "someone"}
+	for _, username := range usernames {
+		createdAt := time.Now()
 
-	result, err := db.Exec(
-		`INSERT INTO users (username, password, created_at)
-		 VALUES (?, ?, ?)`, 
-		username, 
-		password, 
-		createdAt)
+		result, err := db.Exec(
+			`INSERT INTO users (username, password, created_at)
+			VALUES (?, ?, ?)`, 
+			username, 
+			password, 
+			createdAt)
 
-	if err != nil {
-		fmt.Println("Error adding new user to table:", err)
-		return
+		if err != nil {
+			fmt.Println("Error adding new user to table:", err)
+			return
+		}
+
+		lastUserId, err := result.LastInsertId()
+		if err != nil {
+			fmt.Println("Error grabbing user id:", err)
+			return
+		} 
+
+		rowsAffected, err := result.RowsAffected()
+		if err != nil {
+			fmt.Println("Error grabbing user id:", err)
+			return
+		}
+
+		fmt.Printf("\nAdded user with id %v aftected %v rows\n", lastUserId, rowsAffected)
+	
+		var user User
+	
+		query := `SELECT id, username, password, created_at FROM users WHERE id = ?`
+	
+		err = db.QueryRow(query, lastUserId).Scan(&user.id, &user.username, &user.password, &user.createdAt)
+		if err != nil {
+			fmt.Println("Error while getting user row:", err)
+			return
+		}
+	
+		fmt.Println("Here is info about this user")
+		fmt.Println(
+			"\t-> id:", user.id,
+			"\n\t-> username:", user.username,
+			"\n\t-> password:", user.password,
+			"\n\t-> Account created at:", user.createdAt,	
+		)	
 	}
 
-	userId, err := result.LastInsertId()
-	if err != nil {
-		fmt.Println("Error grabbing user id:", err)
-		return
-	} 
-
-	rowsAffected, err := result.RowsAffected()
-	if err != nil {
-		fmt.Println("Error grabbing user id:", err)
-		return
-	}
-
-	fmt.Printf("UserId with id %v aftected %v\n", userId, rowsAffected)
-
-	type User struct {
-		id int
-		username string
-		password string
-		createdAt time.Time
-	}
-
-	var user User
-
-	query := `SELECT id, username, password, created_at FROM users WHERE id = ?`
-
-	err = db.QueryRow(query, userId).Scan(&user.id, &user.username, &user.password, &user.createdAt)
-
-	if err != nil {
-		fmt.Println("Error while getting user row:", err)
-		return
-	}
-
-	fmt.Println("\nHere is info about this user")
-	fmt.Println(
-		"\t-> id:", user.id,
-		"\n\t-> username:", user.username,
-		"\n\t-> password:", user.password,
-		"\n\t-> Account created at:", user.createdAt,	
-	)	
 
 	rows, err := db.Query(`SELECT id, username, password, created_at FROM users`)
 	if err != nil {
@@ -118,6 +119,7 @@ func main() {
 			return
 		}
 		users = append(users, u)
+		lastUserId = u.id
 	}
 
 	err = rows.Err()
@@ -130,6 +132,26 @@ func main() {
 	for _, user := range users {
 		fmt.Println("\t- ", user)
 	}
+
+	result, err := db.Exec(`DELETE FROM users WHERE id = ?`, lastUserId)
+
+	if err != nil {
+		fmt.Println("Error deleting user from database:", err)
+	}
+
+	_, err = result.LastInsertId()
+	if err != nil {
+		fmt.Println("Error grabbing user id:", err)
+		return
+	} 
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		fmt.Println("Error grabbing user id:", err)
+		return
+	}
+
+	fmt.Printf("\nDeleted user with id %v aftected %v rows\n", lastUserId, rowsAffected)
 
 }
 
